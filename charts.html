@@ -20,6 +20,7 @@
       <a href="alife.html">What is ALife?</a>
       <a href="games.html">Games</a>
       <a href="charts.html" aria-current="page">Charts</a>
+      <a href="paper.html">Paper</a>
       <a href="research.html">Research</a>
       <a href="youtube.html">YouTube</a>
       <a href="survey.html">Survey</a>
@@ -33,7 +34,7 @@
     <h1>The games, in numbers</h1>
     <p class="lede">Every game and project on the <a href="games.html">games page</a> has an ALife score out of 12, built from six criteria. Here's what those scores look like side by side.</p>
     <p class="muted-note">The scores are rough estimates from what each game says it simulates, not measurements, and not a quality rating. <a href="games.html#method">How the score works</a>.</p>
-    <p class="muted-note">In grey, for comparison: 15 of the most popular games on Steam (Counter-Strike 2, Elden Ring, Stardew Valley, RimWorld…), scored the same way. They are not artificial life games; they show where mainstream hits land.</p>
+    <p class="muted-note">In grey, for comparison: 15 of the most popular games on Steam (Counter-Strike 2, Elden Ring, Stardew Valley, RimWorld…), scored the same way. They are not artificial life games; they show where mainstream hits land. A second grey group, in hollow squares, holds the 39 games most studied in conservation research (<a href="#environment">more below</a>).</p>
   </div>
 
   <main class="viz">
@@ -64,6 +65,40 @@
     <section class="chart-block">
       <h2>Average score by group</h2>
       <div class="plot" id="by-group"></div>
+    </section>
+
+    <div class="chart-part" id="environment">
+      <p class="label">environmental score</p>
+      <h2 class="part-title">The same charts, for the environmental score</h2>
+      <p class="muted-note">A second score out of 8, from the four points of inquiry for sustainability games in the STRATEGIES report <i>Green Transition at Play</i> (Fizek et al., 2025): intentionality, worldbuilding, mechanics and impact. "?" means no information was found. <a href="games.html#eco-method">How it works</a>.</p>
+      <p class="muted-note">Extra control group, in grey hollow squares: the 39 most-studied games in conservation research, meaning those covered by at least three papers in <a href="https://klblake25.github.io/conservation-and-video-games/" target="_blank" rel="noopener">Blake et al.'s systematic map</a> of how commercial video games engage with biodiversity and conservation (Horizon Zero Dawn, Pokémon GO, Animal Crossing, Minecraft…). They are scored on both scales and appear in both sets of charts, but not on the games page. Eleven more of those studied games are already listed on the site (Eco, Alba, Endling, Subnautica…) and keep their own groups.</p>
+    </div>
+
+    <section class="chart-block">
+      <h2>Environmental score against…</h2>
+      <div class="filters" id="eco-x-axis" role="group" aria-label="Horizontal axis, environmental score"></div>
+      <div class="legend" id="eco-scatter-legend"></div>
+      <div class="plot" id="eco-scatter"></div>
+      <p class="chart-note" id="eco-scatter-note"></p>
+    </section>
+
+    <section class="chart-block">
+      <h2>Which environmental criteria are most common?</h2>
+      <p class="muted-note">For each criterion, how many games score 0, 1, 2 or unknown. Averages count known values only.</p>
+      <div class="legend" id="eco-crit-legend"></div>
+      <div class="plot" id="eco-criteria"></div>
+    </section>
+
+    <section class="chart-block">
+      <h2>How are the environmental scores spread?</h2>
+      <p class="muted-note">Number of games for each total score (unknowns count as 0).</p>
+      <div class="legend" id="eco-hist-legend"></div>
+      <div class="plot" id="eco-histogram"></div>
+    </section>
+
+    <section class="chart-block">
+      <h2>Average environmental score by group</h2>
+      <div class="plot" id="eco-by-group"></div>
     </section>
 
     <section class="chart-block">

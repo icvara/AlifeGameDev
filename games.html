@@ -20,6 +20,7 @@
       <a href="alife.html">What is ALife?</a>
       <a href="games.html" aria-current="page">Games</a>
       <a href="charts.html">Charts</a>
+      <a href="paper.html">Paper</a>
       <a href="research.html">Research</a>
       <a href="youtube.html">YouTube</a>
       <a href="survey.html">Survey</a>
@@ -41,17 +42,26 @@
       <a href="#elsewhere">Elsewhere (<span data-count="other-games"></span>)</a>
       <a href="#projects-section">Projects (<span data-count="projects"></span>)</a>
       <a href="#related-section">Related (<span data-count="related"></span>)</a>
+      <a href="#animal-section">Play as an animal (<span data-count="animal-games"></span>)</a>
+      <a href="#board-section">Board games (<span data-count="board-games"></span>)</a>
     </p>
     <div class="filters" id="filters" role="group" aria-label="Filter by theme"></div>
     <div class="filters" id="sort" role="group" aria-label="Sort every section">
       <button type="button" data-order="newest">default order</button>
       <button type="button" data-order="score">highest ALife score</button>
+      <button type="button" data-order="eco">highest environmental score</button>
     </div>
     <details class="method" id="method">
       <summary>How the ALife score works</summary>
       <p>A rough estimate of how much artificial life each game actually simulates. It's <b>not a quality rating</b>: a great game can score low. Six criteria, each scored 0, 1 or 2, for a total out of 12:</p>
       <ul class="plain" id="score-criteria"></ul>
       <p>Scores are based on what each game says it simulates (store pages, websites, devlogs), not on long play sessions, so some will be off. Hover a score to see the breakdown, and suggest corrections in the <a href="survey.html">survey</a>. <a href="charts.html">See the scores as charts →</a></p>
+    </details>
+    <details class="method" id="eco-method">
+      <summary>How the environmental score works</summary>
+      <p>A second, separate score: how much a game engages with the natural environment and sustainability. It follows the four "points of inquiry" for sustainability games in the STRATEGIES report <a href="https://www.strategieshorizon.eu" target="_blank" rel="noopener"><i>Green Transition at Play</i></a> (Fizek et al., 2025, section 2.2). Each criterion is scored 0, 1 or 2, for a total out of 8:</p>
+      <ul class="plain" id="eco-criteria"></ul>
+      <p>A <b>?</b> means we found no information, and it counts as 0 in the total. Impact is almost always unknown: the report itself notes there is no reliable way to measure it yet. Like the ALife score, it is a rough estimate, not a quality rating.</p>
     </details>
 
     <section id="on-steam">
@@ -87,8 +97,20 @@
 
     <section id="related-section">
       <h2>Related</h2>
-      <p class="muted-note">Famous games that touch on artificial life ideas (autonomous agents, breeding, "evolution") without really being ALife. Here's how each one connects.</p>
+      <p class="muted-note">Famous games that touch on artificial life ideas (autonomous agents, breeding, living ecosystems to survive in, "evolution") without really being ALife. Here's how each one connects.</p>
       <ul class="games" id="related"></ul>
+    </section>
+
+    <section id="animal-section">
+      <h2>Play as an animal</h2>
+      <p class="muted-note">Games about living one animal's life inside a wild ecosystem: hunting, growing up, raising young, surviving. Usually more about nature than about simulated life. Saurian, in the Steam list, belongs here too. Newest first.</p>
+      <ul class="games" id="animal-games"></ul>
+    </section>
+
+    <section id="board-section">
+      <h2>Board games</h2>
+      <p class="muted-note">Tabletop games about evolution, genetics, ecosystems and the environment, scored on both scales. Their ALife scores stay low by nature: the players move everything, so nothing is autonomous and there are no brains, but traits, food webs and emergent play still count. Highest environmental score first. The STRATEGIES report covers the board game industry too.</p>
+      <ul class="games" id="board-games"></ul>
     </section>
 
     <p>Missing a good one? Suggest it in the <a href="survey.html">survey</a>. Once the community is running, members' projects can be featured here too, only with their permission.</p>

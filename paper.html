@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working Paper · ALife Game Dev</title>
+<meta name="description" content="A short working paper: the games most studied in conservation research simulate very little life, while artificial life games, which do, are barely studied.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html">ALife Game Dev</a>
+    <nav aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="alife.html">What is ALife?</a>
+      <a href="games.html">Games</a>
+      <a href="charts.html">Charts</a>
+      <a href="paper.html" aria-current="page">Paper</a>
+      <a href="research.html">Research</a>
+      <a href="youtube.html">YouTube</a>
+      <a href="survey.html">Survey</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <p class="label">working paper · draft · November 2026</p>
+    <h1>Simulated nature, unstudied</h1>
+    <p class="lede">Artificial life games and the gap in research on games and conservation.</p>
+    <p class="muted-note">ALife Game Dev community. A short, open draft meant to start a discussion, not a peer-reviewed article. Every number in it is computed live from the data on this site, so it updates when games are added or scores corrected. Comments and corrections are welcome through the <a href="survey.html">survey</a>.</p>
+  </div>
+
+  <main class="paper viz">
+    <section class="abstract">
+      <h2>Abstract</h2>
+      <p>Artificial life games, where creatures live, evolve and form ecosystems on their own, have rarely been studied as a group. This paper does three things. <b>(1) Evaluation.</b> We propose two grids to measure how much life a game simulates: an <i>ALife score</i> (0–12) built from the ingredients of artificial life research, and a <i>Life score</i> (0–14) built from the seven characteristics of life in biology. Across <span data-lstat="n"></span> games they agree closely (r = <span data-lstat="r"></span>). <b>(2) Description.</b> Using explicit inclusion rules, we describe <b data-stat="nCore"></b> artificial life games: a genre that faded after the 1990s and returned strongly after 2015, built on autonomy and emergence but rarely on learning brains, and played by small audiences (median <span data-astat="median"></span> Steam reviews). Mainstream genres built around living things, from colony sims to creature collectors, simulate far less: only <span data-gstat="above"></span> of <span data-gstat="nGames"></span> well-known games reach the artificial life threshold. <b>(3) Ecology.</b> Adding an environmental score (0–8) based on the STRATEGIES report <i>Green Transition at Play</i>, we compare artificial life games with the <b data-stat="nResearch"></b> games most studied in conservation research (Blake et al.'s systematic map). Simulating life and engaging with nature turn out to be independent (r = <span data-stat="rAll"></span>). The studied games average <b data-stat="resAlife"></b>/12 on the ALife score, against <b data-stat="coreAlife"></b>/12 for artificial life games, while both sit close together on the environmental score (<span data-stat="resEco"></span> and <span data-stat="coreEco"></span>/8). Research has looked at games that <i>show</i> nature and largely missed the games that <i>simulate</i> it; very few games do both, which points to a research gap and an open design space.</p>
+    </section>
+
+    <section>
+      <h2>1. Introduction</h2>
+      <p>Games are increasingly discussed as a way to engage people with ecology and climate. A recent systematic map found 380 papers covering 450 commercial games and biodiversity, but also noted how few of them measure effects with pre/post tests or control groups, and that there is still no evidence on whether games change real-world pro-ecological behaviour (Blake et al., 2026).</p>
+      <p>Meanwhile, a separate tradition has built games around <i>artificial life</i> (ALife): creatures with their own drives, genomes that mutate and are selected, food webs with feedback, and outcomes that nobody scripted (Langton, 1989). From Creatures (Grand et al., 1997) to SimLife, SimEarth and recent indie titles, these games ask players to <i>work with</i> living systems rather than look at them.</p>
+      <h3>1.1 Soft artificial life: a short state of the art</h3>
+      <p>Artificial life studies "life as it could be" by building it, in software ("soft" ALife), hardware or chemistry (Langton, 1989). Its software branch starts with von Neumann's self-reproducing automata (von Neumann, 1966) and Conway's Game of Life, which showed how complex, lifelike patterns can emerge from a few local rules (Gardner, 1970). The field took its name at the first ALife workshop in 1987.</p>
+      <p>Three lines of work matter most for games. <b>Digital evolution</b> lets self-replicating programs compete for resources: in Tierra, parasites and hosts emerged on their own (Ray, 1991), and Avida has been used to test evolutionary theory directly, showing how complex features can evolve step by step (Lenski et al., 2003). <b>Evolved bodies and brains</b> began with Sims' virtual creatures, whose morphology and neural control evolved together (Sims, 1994), and grew with neuroevolution methods such as NEAT (Stanley &amp; Miikkulainen, 2002), which were soon used in games like NERO and Galactic Arms Race. <b>Self-organisation</b> has seen a recent revival: continuous cellular automata like Lenia produce a zoo of moving, lifelike forms (Chan, 2019), neural cellular automata learn to grow and repair shapes (Mordvintsev et al., 2020), and computer-designed "xenobots" built from frog cells carried the field into living matter (Kriegman et al., 2020).</p>
+      <p>The central open problem is <b>open-endedness</b>: no artificial system yet keeps producing genuine novelty indefinitely the way biological evolution does (Bedau et al., 2000; Packard et al., 2019). Ideas like novelty search, which rewards being different rather than being better (Lehman &amp; Stanley, 2011), and, very recently, the use of foundation models to search the space of possible simulations for lifelike behaviour (Kumar et al., 2024), are attempts to get there. Games are an interesting test bed: they put these systems in front of millions of people, and players are very good at noticing when a world stops surprising them.</p>
+      <h3>1.2 Aims and structure</h3>
+      <p>This paper has three aims, which give it its structure. <b>First, how can we evaluate how much artificial life a game contains?</b> We propose two scoring grids and check that they agree (section 3). <b>Second, what do artificial life games look like?</b> We describe them as a genre: when they were made, which ingredients of life they actually simulate, how many people play them, and how far mainstream genres built around living things are from them (section 4). <b>Third, how do they relate to ecology games and to research on games and nature?</b> We add an environmental score and ask whether the games studied for their relationship with nature actually simulate nature (section 5).</p>
+    </section>
+
+    <section>
+      <h2>2. Corpus</h2>
+      <h3>2.1 Sources</h3>
+      <p>Two sources were combined. (1) The catalogue maintained on this site (<span data-stat="nCatalogue"></span> scored entries), built from the Artificial Life curator list and tags on Steam, itch.io tag pages, community suggestions and earlier ALife literature. (2) Blake et al.'s systematic map of 380 papers on commercial video games and biodiversity (450 games). From the map we took every game covered by at least three papers, the threshold the map itself uses to report its most frequent games.</p>
+      <h3>2.2 Inclusion rules</h3>
+      <p>The rules were fixed before the analysis and are applied in this order, by the page itself, so anyone can check or change them:</p>
+      <ol class="paper-list rules">
+        <li><b>R1, released.</b> The game must be publicly available. Announced and early-development titles are excluded, since they cannot be played or studied yet.</li>
+        <li><b>R2, not a prototype.</b> itch.io entries are excluded: most are prototypes, jam games or unfinished experiments, which would not be comparable with commercial titles.</li>
+        <li><b>R3, video games.</b> Board games are excluded from the main comparison and reported separately (section 5.7), because they cannot run a simulation on their own.</li>
+        <li><b>R4, actually artificial life.</b> A game counts as an artificial life game if it scores at least <span data-stat="alifeMin"></span>/12 on the ALife score, whichever list of the site it comes from: games filed under "Related" or "Play as an animal" that reach the threshold join the artificial life group. Games from the site's artificial life lists (Steam, elsewhere, projects) that score below it are excluded, since they merely touch on the theme (cosy breeding sims, aquarium managers, pure cellular automata). The two comparison samples, popular Steam games and conservation research games, are kept whole whatever their scores, so they stay faithful to how they were defined.</li>
+      </ol>
+      <p>Games from Blake et al.'s map that were already in the catalogue (<span data-stat="nOverlap"></span>, such as Eco, SimEarth and Subnautica) stay in their catalogue group <i>and</i> join the conservation research group, which therefore holds all <span data-stat="nResearch"></span> most-studied games. These games are counted in both groups; in the figures they get their own mark (a dark diamond when they are also artificial life games, an orange ring when they are also popular Steam games).</p>
+
+      <figure>
+        <div class="flow" id="fig-flow"></div>
+        <figcaption><b>Figure 1.</b> Selection flow, computed live. Open "list" to see which games each step removed, and which studied games are counted in two groups.</figcaption>
+      </figure>
+
+      <p>The final corpus is split into groups:</p>
+      <ul class="plain paper-groups" id="group-list"></ul>
+      <h3>2.3 Scoring</h3>
+      <p>Every game is scored on the scales defined in section 3 (artificial life) and section 5.1 (environment). Scores were assigned by the site's editors, with AI assistance, from store pages, official descriptions and developer material. They are rough estimates, not measurements (see section 7).</p>
+    </section>
+
+    <section>
+      <h2>3. How to evaluate artificial life in games</h2>
+      <p>To compare games, we need a way to say how much "life" a game simulates. We use two independent grids: an <i>ALife score</i> built from the ingredients of artificial life research, and a <i>Life score</i> built from the characteristics of life used in biology. Both score each criterion 0 (absent), 1 (partly, or steered by the player) or 2 (fully, on its own).</p>
+      <h3>3.1 The ALife score</h3>
+      <p><b>ALife score (0–12).</b> Six criteria scored 0, 1 or 2: <i>autonomy</i> (creatures act on their own drives), <i>brains</i> (behaviour from learning or neural networks), <i>body</i> (body organisation that varies or can be built), <i>evolution</i> (inheritance with variation; 2 when natural selection decides), <i>ecosystem</i> (species and resources depend on each other with feedback) and <i>emergence</i> (unscripted outcomes).</p>
+      <p>The six criteria follow the three lines of research of section 1.1: autonomy and emergence come from self-organisation, brains and body from evolved bodies and brains, evolution and ecosystem from digital evolution. A game reaching <span data-stat="alifeMin"></span>/12 or more is treated as an artificial life game (rule R4).</p>
+      <h3>3.2 The Life score</h3>
+      <p><b>Life score (0–14).</b> The ALife score is our own design, so we also scored games against an independent and much older yardstick: the seven characteristics of life used in biology textbooks. These are <i>organisation</i> (internal structure), <i>metabolism</i> (taking in and using energy), <i>homeostasis</i> (regulating an internal state), <i>growth</i>, <i>reproduction</i>, <i>response</i> to stimuli and <i>adaptation</i> over generations. Each is scored 0, 1 or 2 for any living thing the game simulates, including the player's avatar when its biology is simulated (hunger, body temperature). Definitions of life are themselves debated (Koshland, 2002), so this list is a convenient common reference rather than a definitive one. It was scored for every game in the three main categories of the comparison, including artificial life games below the ALife threshold and studied games listed elsewhere on the site: artificial life games, conservation research games and popular Steam games.</p>
+      <h3>3.3 Do the two scales agree?</h3>
+      <p>To compare the two scales fairly, we drop the ALife threshold (rule R4): selecting games on one score and then correlating it with another would be partly circular. The artificial life category therefore holds every released game from the site's artificial life lists (<span data-lstat="nAlife"></span> games, <span data-lstat="below"></span> of them below <span data-stat="alifeMin"></span>/12), and the conservation research category holds all <span data-lstat="nResearch"></span> most-studied games, including those filed elsewhere on the site. <span data-lstat="doubleN"></span> games belong to two categories (<span data-lstat="doubles"></span>); they are drawn once, with their own mark, and counted in both categories. Across these <span data-lstat="n"></span> games, the two scales tell the same story (Figure 2). The two measures agree closely (r = <b data-lstat="r"></b>). Artificial life games average <b data-lstat="alife"></b>/14, conservation research games <b data-lstat="research"></b>/14 and popular Steam games <span data-lstat="popular"></span>/14. On the ALife score the artificial life games were about <span data-lstat="ratioA"></span> times higher than the research games; on the Life score the gap is about <span data-lstat="ratioL"></span> times.</p>
+      <p>The two measures do not reward the same things, and the disagreements are informative. Games with detailed bodies and survival needs score higher on Life than on ALife: <span data-lstat="moreLife"></span>. Their creatures eat, regulate their temperature and grow up, but rarely evolve. The opposite cases rely on behaviour, learning or evolution more than on simulated physiology: <span data-lstat="moreAlife"></span>. Among artificial life games, the most common characteristics are <span data-lstat="top"></span>, the rarest <span data-lstat="low"></span> (Figure 3): few games model an internal state that organisms must keep in balance. <span data-lstat="full7N"></span> games show all seven characteristics at least partly, <span data-lstat="full7Core"></span> of them artificial life games; the highest Life scores go to <span data-lstat="topLife"></span>.</p>
+      <figure>
+        <div class="legend" id="life-legend"></div>
+        <div class="plot" id="fig-life"></div>
+        <figcaption><b>Figure 2.</b> ALife score against Life score (the seven characteristics of life), without the ALife threshold. Large outlined marks are category averages. A dark diamond marks a game that is both an artificial life game and among the most-studied; an orange ring marks a popular game that is also studied. The dashed diagonal is where a game reaches the same share of each scale's maximum (above it, relatively higher on Life); the dotted vertical line is the ALife threshold used elsewhere in the paper. Hover a mark for its breakdown.</figcaption>
+      </figure>
+      <figure>
+        <div class="table-wrap"><table class="fingerprint paper-table" id="fig-life-table"></table></div>
+        <figcaption><b>Figure 3.</b> Average per criterion (0–2), by category, for both scales: the six ALife criteria (top) and the seven characteristics of life (bottom). Longer bars are higher. Same games as Figure 2, without the ALife threshold; games in two categories are counted in both.</figcaption>
+      </figure>
+      <div class="fig-wide">
+        <div class="legend" id="critdist-legend"></div>
+        <div class="crit-grid">
+          <figure>
+            <div class="crit-panel plot" id="fig-critdist-alife"></div>
+            <figcaption><b>Figure 3b.</b> Criteria of the artificial life games (no threshold): for each criterion, the games scoring 0, 1 and 2 (bar length = share of the category, number = games). Hover a segment for its games.</figcaption>
+          </figure>
+          <figure>
+            <div class="crit-panel plot" id="fig-critdist-research"></div>
+            <figcaption><b>Figure 3c.</b> Criteria of the conservation research games (all most-studied): for each criterion, the games scoring 0, 1 and 2 (bar length = share of the category, number = games). Hover a segment for its games.</figcaption>
+          </figure>
+          <figure>
+            <div class="crit-panel plot" id="fig-critdist-popular"></div>
+            <figcaption><b>Figure 3d.</b> Criteria of the popular Steam games: for each criterion, the games scoring 0, 1 and 2 (bar length = share of the category, number = games). Hover a segment for its games.</figcaption>
+          </figure>
+        </div>
+        <p class="muted-note">Figures 3b to 3d show the distribution behind Figure 3, drawn like Figure 5, one sub-figure per category: ALife criteria on top, characteristics of life below.</p>
+      </div>
+      <p>Because they agree, the rest of the paper uses the ALife score as the main measure and the Life score as a check: most figures come in pairs, one for each scale.</p>
+    </section>
+
+    <section>
+      <h2>4. Describing artificial life games</h2>
+      <p>We first describe the <b data-astat="n"></b> artificial life games that passed the inclusion rules: <span data-astat="steam"></span> on Steam, <span data-astat="other"></span> released elsewhere (consoles, classic PC, mobile, browser), <span data-astat="project"></span> research projects and software toys, and <span data-astat="more"></span> games the site files under other lists but which pass the threshold (<span data-astat="moreNames"></span>). To our knowledge, this is the first attempt to characterise artificial life games as a genre with a common scoring grid.</p>
+
+      <h3>4.1 History: a genre that went quiet, then came back</h3>
+      <p>The corpus spans <span data-astat="first"></span> to <span data-astat="last"></span> (Figure 4). A first wave in the 1990s (SimLife, SimEarth, Creatures, Tierra, Framsticks) was followed by a long thin period, with no included game released in <span data-astat="gap"></span>. Since 2015 the genre has returned strongly: <b data-astat="recent"></b> games (<span data-astat="recentPct"></span> of the corpus) are from 2015 or later, mostly small independent Steam releases. Recent games also simulate more: their average ALife score is <span data-astat="recentAvg"></span>/12, against <span data-astat="olderAvg"></span> before 2015, likely helped by cheaper computing power that lets thousands of agents and neural networks run on a home PC.</p>
+      <figure>
+        <div class="legend" id="timeline-legend"></div>
+        <div class="plot" id="fig-timeline"></div>
+        <figcaption><b>Figure 4.</b> Artificial life games released each year (bars, left axis) and the average ALife score of that year's games (dots, right axis). Hover a bar or dot for the titles and their scores.</figcaption>
+      </figure>
+
+      <h3>4.2 Ingredients: what "artificial life" means in practice</h3>
+      <p>Two criteria are almost universal: <span data-astat="auto"></span> of the games have autonomous creatures and <span data-astat="emerg"></span> produce unscripted outcomes (Figure 5). These seem to be the core of the genre. Evolution is common but often steered: <span data-astat="natSel"></span> games (<span data-astat="natSelPct"></span>) let natural selection decide, while <span data-astat="evoPlayer"></span> leave the choices to the player, as in breeding games. <span data-astat="ecoFull"></span> games run a full ecosystem with feedback, and <span data-astat="body2"></span> let bodies be built from parts or evolve.</p>
+      <p>Brains are the rarest ingredient: <b data-astat="brains0"></b> games (<span data-astat="brains0Pct"></span>) have no learning or neural behaviour at all, and only <span data-astat="brains2"></span> use real neural networks or learning. Neuroevolution, where both brains and natural selection score 2, appears in only <span data-astat="neuroN"></span> games: <span data-astat="neuro"></span>. Only <span data-astat="fullN"></span> games score on all six criteria: <span data-astat="full"></span>. Despite decades of research on evolving neural agents, games that combine evolving bodies, learning brains and full ecosystems are still exceptional.</p>
+      <figure>
+        <div class="legend" id="profile-legend"></div>
+        <div class="plot" id="fig-profile"></div>
+        <figcaption><b>Figure 5.</b> Number of artificial life games scoring 0, 1 or 2 on each ALife criterion. Hover a segment for the titles.</figcaption>
+      </figure>
+
+      <h3>4.3 Popularity: the deepest simulations reach few players</h3>
+      <p>For the <span data-astat="steamN"></span> artificial life games on Steam, we used the number of user reviews as a proxy for audience. The median is only <b data-astat="median"></b> reviews, and <span data-astat="under1k"></span> games have fewer than 1,000. Among these games, popularity and depth are, if anything, weakly opposed (Spearman ρ = <b data-astat="rho"></b>); once the games below the threshold are included, as in Figure 6, the relation vanishes (ρ = <span data-xstat="rhoA"></span>). The most-played titles are accessible games with moderate scores: <span data-astat="topPlayed"></span>. The highest-scoring games, at <span data-astat="bestScore"></span>/12, reach far fewer players: <span data-astat="best"></span>. This matters for research: studies tend to follow large player bases, and the games that simulate life most deeply have small ones.</p>
+      <p>The comparison groups make the contrast explicit (Figure 6). The <span data-astat="resSteamN"></span> conservation research games sold on Steam have a median of <b data-astat="resMedian"></b> reviews, about <b data-astat="resTimes"></b> times the median artificial life game in Figure 6 (<span data-astat="medianNT"></span> reviews, for the <span data-astat="steamNT"></span> artificial life games on Steam, with no ALife threshold), and <span data-astat="resNotSteam"></span> more have no comparable Steam count, mostly console or mobile hits that are not on Steam at all (Pokémon GO, Animal Crossing, Minecraft, Breath of the Wild…). The popular Steam games sit higher still, at a median of <span data-astat="refMedian"></span>. Research attention follows audience: the studied games sit in the top-left of Figure 6, the artificial life games in the bottom-right. Pooling all <span data-xstat="pooledN"></span> games, the dashed trend line has r = <b data-xstat="pooledA"></b> between the ALife score and log(reviews) (r = <span data-xstat="pooledL"></span> with the Life score): the games people play most simulate the least. But this is mostly a gap <i>between</i> groups, not a cost of simulation <i>within</i> them: among artificial life games alone, the relation all but disappears (ρ = <span data-xstat="rhoA"></span>).</p>
+      <div class="fig-pair">
+        <figure>
+          <div class="legend" id="popularity-legend"></div>
+          <div class="plot" id="fig-popularity"></div>
+          <figcaption><b>Figure 6.</b> Steam reviews (log scale) against ALife score, for every game sold on Steam in the three categories. The artificial life category is taken without the ALife threshold (every released game from the site's artificial life lists), so that the horizontal axis is not also a selection criterion; the dotted line shows where the threshold would be. A dark diamond marks an artificial life game that is also among the most-studied, and an orange ring a popular game that is also studied. The dashed line is the least-squares trend of log(reviews) on the score across all plotted games together, each counted once (its correlation r is shown next to it). Some studied games are on Steam only as later editions (e.g. The Last of Us Part I); Horizon Forbidden West and Zoo Tycoon have no comparable Steam count. Hover a mark for its numbers.</figcaption>
+        </figure>
+        <figure>
+          <div class="legend" id="popularity-legend-life"></div>
+          <div class="plot" id="fig-popularity-life"></div>
+          <figcaption><b>Figure 6b.</b> The same games as Figure 6, with the Life score (seven characteristics of life, out of 14) on the horizontal axis instead of the ALife score. The dashed line is the same pooled trend, on the Life score.</figcaption>
+        </figure>
+      </div>
+      <p>With the Life score instead of the ALife score (Figure 6b), the gap between groups remains, but the relation inside the artificial life group changes: popularity and Life score are related at ρ = <span data-xstat="rhoL"></span>, against ρ = <span data-xstat="rhoA"></span> with the ALife score. Popular titles like ARK, The Isle and Oxygen Not Included simulate a lot of <i>biology</i> (bodies, hunger, temperature, growth) and score well on Life; what they lack is evolution and learning, which the ALife score weighs more. The highest Life scores among artificial life games go to <span data-xstat="bestL"></span>. In other words, large audiences do not avoid simulated organisms; they rarely meet evolving ones.</p>
+
+      <h3>4.4 Reception: well liked, with an exception</h3>
+      <p>Audience size is not the same as appreciation. We also collected each game's Steam review score, the share of all user reviews that are positive. Artificial life games are well liked: their median is <b data-rstat="medA"></b>% positive (<span data-rstat="nA"></span> games), close to the conservation research games (<span data-rstat="medR"></span>%, <span data-rstat="nR"></span> on Steam) and the popular Steam games (<span data-rstat="medP"></span>%, <span data-rstat="nP"></span>). The share of games at 90% or more is <span data-rstat="s90A"></span>, <span data-rstat="s90R"></span> and <span data-rstat="s90P"></span> respectively.</p>
+      <div class="fig-pair">
+        <figure>
+          <div class="legend" id="reception-legend"></div>
+          <div class="plot" id="fig-reception"></div>
+          <figcaption><b>Figure 7.</b> Steam review score (% of all user reviews that are positive) against ALife score, for every game sold on Steam in the three categories, with the artificial life category taken without the ALife threshold (dotted line). Large outlined marks are category averages. Games with too few reviews for Steam to show a score are left out. Hover a mark for its numbers.</figcaption>
+        </figure>
+        <figure>
+          <div class="legend" id="reception-legend-life"></div>
+          <div class="plot" id="fig-reception-life"></div>
+          <figcaption><b>Figure 7b.</b> The same games as Figure 7, with the Life score (out of 14) on the horizontal axis.</figcaption>
+        </figure>
+      </div>
+      <p>The exception is at the deep end. Within artificial life games, the review score tends to fall slightly as the ALife score rises (Spearman ρ = <span data-rstat="rhoA"></span>; with the Life score, ρ = <span data-rstat="rhoL"></span>), a weak trend. It is clearest at the very top: the games scoring 10/12 or more have a median of only <b data-rstat="deepMed"></b>% positive: <span data-rstat="deep"></span>. We have not analysed the review texts, but a plausible explanation, worth checking, is that deep simulations often come with unclear goals, steep learning curves or heavy performance costs. If so, deep simulation is hard to turn into a satisfying game, which may be one reason these titles stay small (section 4.3). The broadly loved games of the genre (Rain World, WorldBox, Oxygen Not Included, Creatures, Dwarf Fortress) wrap their simulation in strong goals and presentation.</p>
+
+      <h3>4.5 Genres: where simulated life could matter</h3>
+      <p>Artificial life games are a niche, but several large mainstream genres are built around living things: colony and life sims, virtual pets, creature collectors, open worlds, survival, zoo and farming games, play-as-an-animal games and god games. How much life do they actually simulate? We scored a sample of <span data-gstat="perGenre"></span> well-known games in each of these <span data-gstat="nGenres"></span> genres (<span data-gstat="nGames"></span> games; games already in the catalogue keep their scores). This sample is chosen for recognisability, not systematically, so it shows typical games rather than exact genre averages. For comparison, the figures also show a benchmark row of <span data-gstat="benchN"></span> dedicated <i>artificial life sims</i> (Vilmonic, The Bibites, The Sapling, Species: ALRE, Equilinox…), the games whose core loop <i>is</i> simulated life. It averages <span data-gstat="benchMean"></span>/12 on ALife and <span data-gstat="benchLife"></span>/14 on Life, with <span data-gstat="benchAbove"></span> of <span data-gstat="benchN"></span> games in the artificial life zone. It is high by construction, so it is left out of the rankings below.</p>
+      <p>The ranking is clear (Figure 8): <span data-gstat="ranking"></span>. <span data-gstat="top"></span> come first, with <span data-gstat="topAbove"></span> of <span data-gstat="topN"></span> games in the artificial life zone, driven by <span data-gstat="topCrit"></span>: hundreds of autonomous agents whose needs collide produce the unscripted stories these genres are known for. At the other end, the last genre, <span data-gstat="last"></span>, averages only <span data-gstat="lastMean"></span>/12. Genres "about" creatures do not necessarily simulate them: in most creature collectors, monsters are stat sheets that battle and "evolve" on a script.</p>
+      <p>Across all genres, the ingredients are unevenly spread. Autonomy (average <span data-gstat="autoAll"></span>/2) and emergence (<span data-gstat="emergAll"></span>) are common; evolution is rare (<span data-gstat="evoAll"></span>), and natural selection appears in only <span data-gstat="natSelN"></span> of these games (<span data-gstat="natSel"></span>). Learning brains appear in only <span data-gstat="brainsN"></span>. Only <span data-gstat="above"></span> of the <span data-gstat="nGames"></span> games reach the artificial life zone. Mainstream games have taken the most visible part of artificial life, autonomous agents and emergent stories, and largely left out evolution, ecosystems and learning. Those genres are where artificial life ideas could reach the most players, and where the design space of section 5.5 is most open.</p>
+      <div class="fig-pair">
+        <figure>
+          <div class="legend" id="genres-legend"></div>
+          <div class="plot" id="fig-genres"></div>
+          <figcaption><b>Figure 8.</b> ALife score of <span data-gstat="perGenre"></span> well-known games per genre, sorted by genre average (dark bar), below a benchmark row of dedicated artificial life sims (in italics). Marks use the colours and shapes of the other figures when a game belongs to one of the paper's categories; hollow grey circles are other games, a dark diamond an artificial life game that is also among the most-studied, and an orange ring a popular game that is also studied. Games with equal scores are stacked vertically. The right column counts games at or above the ALife threshold. Hover a mark for its breakdown.</figcaption>
+        </figure>
+        <figure>
+          <div class="legend" id="genres-life-legend"></div>
+          <div class="plot" id="fig-genres-life"></div>
+          <figcaption><b>Figure 8b.</b> The same games, genres and benchmark row as Figure 8, scored with the Life score and re-sorted by genre average Life score (the benchmark row stays on top) (seven characteristics of life, out of 14). The dark bar is the genre average, also given in the right column. Hover a mark for its breakdown.</figcaption>
+        </figure>
+      </div>
+      <p>Scored with the seven characteristics of life instead (Figure 8b), the picture shifts in instructive ways. The two scores still agree game by game (r = <span data-gstat="lifeR"></span>) and genre by genre (r = <span data-gstat="genreR"></span> between genre averages), but the ranking becomes <span data-gstat="lifeRanking"></span>. Genres whose creatures, characters or crops are fed, cared for and grow up move up (<span data-gstat="up"></span>), even when nothing evolves. Genres built on autonomy and emergence rather than biology move down (<span data-gstat="down"></span>). Across all <span data-gstat="nGames"></span> games, the most common characteristics are <span data-gstat="lifeTop"></span>, and the rarest are <span data-gstat="lifeLow"></span>. Mainstream games model what organisms <i>do and need</i> (reacting, eating) far more often than how they are <i>built</i> or how they <i>change over generations</i>, which is exactly what artificial life adds.</p>
+    </section>
+
+    <section>
+      <h2>5. Ecology games</h2>
+      <p>We now turn to games about nature and the environment, and to the games that research on games and conservation has studied.</p>
+      <h3>5.1 The environmental score</h3>
+      <p><b>Environmental score (0–8).</b> The four points of inquiry for sustainability games in Fizek et al. (2025, section 2.2): <i>intentionality</i> (is the game positioned as environmental?), <i>worldbuilding</i> (is nature alive and changing, fragile or hostile?), <i>mechanics</i> (do players act on the environment, and does it push back?) and <i>impact</i> (is there evidence of an effect on players?). Unknown values count as 0.</p>
+      <h3>5.2 Simulating life and engaging with nature are independent</h3>
+      <p>Across all <span data-stat="n"></span> games, the correlation between the ALife and environmental scores is r = <b data-stat="rAll"></b> (artificial life games alone: r = <span data-stat="rCore"></span>). Simulating life and engaging with the environment are separate design choices: a game can evolve neural-network creatures with no environmental framing at all, and a moving climate game can contain no simulated life.</p>
+
+      <div class="fig-pair">
+        <figure>
+          <div class="legend" id="groups-legend"></div>
+          <div class="plot" id="fig-groups"></div>
+          <figcaption><b>Figure 9.</b> ALife score against environmental score for the three main categories, with the artificial life category taken without the ALife threshold (as in Figure 6): every game as a small mark, and each category's average as a large outlined mark. Games in two categories have their own mark: a dark diamond for artificial life games that are also among the most-studied in conservation research, and an orange ring around popular games that are also studied. Scores are jittered slightly so equal values stay visible; the highlighted corner is high on both scales. The same colours and shapes are used in every figure. Hover any mark for its numbers.</figcaption>
+        </figure>
+        <figure>
+          <div class="legend" id="groups-legend-life"></div>
+          <div class="plot" id="fig-groups-life"></div>
+          <figcaption><b>Figure 9b.</b> The same games as Figure 9, with the Life score (out of 14) on the horizontal axis. The highlighted corner is half of each scale's maximum or more on Life (7/14) and at least 5/8 on the environment.</figcaption>
+        </figure>
+      </div>
+      <p>Replacing the ALife score with the Life score (Figure 9b) barely changes this picture. The Life score is about as weakly related to the environmental score (r = <span data-xstat="rEcoL"></span> for these three categories, against <span data-xstat="rEcoA"></span> with ALife), and artificial life games stay far ahead while the two comparison groups stay close together: artificial life games average <span data-xstat="coreL"></span>/14, conservation research games <span data-xstat="resL"></span> and popular games <span data-xstat="refL"></span>. The corner stays sparsely populated: <span data-xstat="bothL"></span> games reach at least 7/14 on Life and 5/8 on the environment (<span data-xstat="bothLNames"></span>), against <span data-xstat="bothA"></span> with the ALife score.</p>
+
+      <h3>5.3 Research has studied games that simulate little</h3>
+      <p>The most-studied games average <b data-stat="resAlife"></b>/12 on the ALife score: about the same as <span data-stat="refName"></span> (<span data-stat="refAlife"></span>/12), and far below the artificial life games (<span data-stat="coreAlife"></span>/12). In other words, the games studied for their relationship with nature simulate about as much life as mainstream hits chosen with no regard for nature at all. <span data-stat="resHighPhrase"></span> 6/12 or more; the highest is <span data-stat="resTop"></span>. Among all <span data-stat="nResearch"></span> studied games, only SimEarth and Eco are genuine simulations of living systems; the rest are mostly open-world, survival and narrative games.</p>
+
+      <h3>5.4 Showing nature versus acting on it</h3>
+      <p>The criteria tell a more specific story (Figure 10). The studied games score <i>higher</i> than artificial life games on worldbuilding (<span data-stat="resWorld"></span> against <span data-stat="coreWorld"></span>): they are rich, beautiful, often fragile worlds. But they score lower on mechanics (<span data-stat="resMech"></span> against <span data-stat="coreMech"></span>), and, as Figure 3 shows, close to zero on every ALife criterion except autonomy and emergence. Research has favoured nature as <i>setting</i>; artificial life games offer nature as <i>system</i>.</p>
+
+      <figure>
+        <div class="table-wrap"><table class="fingerprint paper-table" id="fig-criteria"></table></div>
+        <figcaption><b>Figure 10.</b> Average per environmental criterion (0–2); longer bars are higher. Artificial life games = all games passing rules R1 to R4. The conservation research column holds all <span data-stat="nResearchAll"></span> most-studied games, so the <span data-stat="nDouble"></span> games that also belong to another column are counted in both. Unknown environmental values count as 0.</figcaption>
+      </figure>
+
+      <h3>5.5 Few games do both</h3>
+      <p>Only <b data-stat="bothN"></b> games score at least 6/12 on ALife and 5/8 on the environment: <span data-stat="both"></span>. Most are decades old; several promising titles in this corner are still unreleased or exist only as itch.io prototypes, and so fall outside the corpus. Of the <span data-stat="coreHighN"></span> artificial life games scoring 8/12 or more, <span data-stat="coreHighEcoN"></span> reach 5/8 on the environment.</p>
+
+      <h3>5.6 Intention and impact are rare everywhere</h3>
+      <p>Only <span data-stat="intentN"></span> games are clearly positioned as environmental games (intentionality 2), and their ALife scores average <span data-stat="intentAlife"></span>/12. Impact could be documented for only <span data-stat="impactN"></span> games (<span data-stat="impact"></span>), echoing both the STRATEGIES report and Blake et al.: the field still lacks evidence of effects on players.</p>
+
+      <h3>5.7 Board games</h3>
+      <p>Board games show the same split on a smaller scale. The <span data-stat="nBoard"></span> board games in the catalogue (excluded from the main corpus by rule R3) average <span data-stat="boardAlife"></span>/12 on ALife but <span data-stat="boardEco"></span>/8 on the environment, above most video game groups (Figure 11). Their ALife scores stay low by nature: players move every piece, so <span data-bstat="autoZero"></span> of <span data-bstat="n"></span> have no autonomy at all, and none can run evolution or learning by itself. What board games can model is the structure of living systems: traits, food webs and changing climates. The most "alive" are <span data-bstat="topA"></span>; the most environmental are <span data-bstat="topE"></span>. As with video games, the two scales are close to independent (r = <span data-bstat="r"></span>): evolution-themed games and explicitly environmental ones are still largely separate families, and only <span data-bstat="bothN"></span> score at least 4 on both (<span data-bstat="both"></span>).</p>
+      <figure>
+        <div class="legend" id="board-legend"></div>
+        <div class="plot" id="fig-board"></div>
+        <figcaption><b>Figure 11.</b> Board games: ALife score against environmental score. Each hollow circle is a board game; large marks are averages, for board games and, for reference, the artificial life video games and conservation research games of Figure 9. Scores are jittered slightly. Hover a mark for its numbers.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>6. Discussion</h2>
+      <p><b>Why the gap matters.</b> Ecological understanding is largely about <i>systems</i>: feedback loops, delays, carrying capacity, coevolution and collapse (Meadows, 2008). A beautiful forest teaches what nature looks like; a population that crashes because you removed its predator teaches how nature works. Artificial life games are, by construction, interactive models of those dynamics. In STRATEGIES' terms, they are strong on <i>plasticity</i> (worlds that change) and on mechanics where "the environment touches back", the very properties the report highlights in games like Rain World.</p>
+      <p><b>Why they may have been missed.</b> Most artificial life games are small and independent, released on itch.io or in early access, with modest audiences (the median artificial life game on Steam has <span data-astat="median"></span> reviews, and the deepest simulations have the fewest players; section 4.3), while conservation research has tended to follow large player bases (Pokémon GO, Animal Crossing, Minecraft). They rarely present themselves as environmental games, so they do not appear in searches for "eco" or "climate" games. And their subject, evolution and emergence, sits in a different academic community (artificial life, complex systems) from game studies and conservation.</p>
+      <p><b>A research agenda.</b> We suggest:</p>
+      <ol class="paper-list">
+        <li><b>Study systemic games directly.</b> Compare players of a living-system game (e.g. Equilinox, Eco, a predator–prey sandbox) with players of a scenic nature game on systems-thinking measures, with pre/post tests and a control group, as Blake et al. recommend.</li>
+        <li><b>Look at mechanics, not only representation.</b> Ecocritical readings focus on what a world depicts; artificial life games ask what a world <i>does</i> when you intervene.</li>
+        <li><b>Use the overlap as a design brief.</b> The near-empty corner of Figure 9, high on both scales, is an invitation to developers: simulated ecosystems with a clear environmental intention.</li>
+        <li><b>Bring the communities together.</b> ALife researchers, game developers and conservation scientists rarely meet. Shared datasets like Blake et al.'s map, and community efforts like this site, can help.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>7. Limitations</h2>
+      <p>The scores are editorial estimates from public descriptions, not long play sessions, and they were not checked by independent raters, so no inter-rater reliability is available. Both scales are our own operationalisations: the STRATEGIES report presents its points of inquiry as questions, not as a scoring grid. "Unknown" counts as 0, which lowers environmental totals, especially for impact. The inclusion rules are applied systematically, but the catalogue they are applied to was built by curation and community suggestions, not by a database search with a fixed query, so some artificial life games are surely missing. The ALife threshold (≥ <span data-stat="alifeMin"></span>/12) is a choice: it is set as one constant in the page's code, so its effect can be tested. Excluding itch.io also removes some genuinely innovative work. The research group uses only the most-studied games in Blake et al.'s map, not all 450. The comparison is descriptive: it shows where attention has gone, not why.</p>
+    </section>
+
+    <section>
+      <h2>8. Conclusion</h2>
+      <p>The games researchers have chosen to understand how play relates to nature mostly <i>picture</i> nature. The games that <i>simulate</i> it, where creatures live, compete, evolve and collapse on their own, have been almost entirely left out. Closing that gap would give conservation research a new kind of evidence, and give artificial life game developers a new reason to design for the planet.</p>
+    </section>
+
+    <section class="refs">
+      <h2>References</h2>
+      <ul class="plain">
+        <li>Bedau, M. A., McCaskill, J. S., Packard, N. H., Rasmussen, S., Adami, C., Green, D. G., Ikegami, T., Kaneko, K. &amp; Ray, T. S. (2000). Open problems in artificial life. <i>Artificial Life</i>, 6(4), 363–376.</li>
+        <li>Blake, K. et al. (2026). How commercial video games engage with biodiversity and conservation: a systematic map of literature. <a href="https://doi.org/10.1145/3811918" target="_blank" rel="noopener">doi:10.1145/3811918</a>. Interactive database: <a href="https://klblake25.github.io/conservation-and-video-games/" target="_blank" rel="noopener">klblake25.github.io/conservation-and-video-games</a>.</li>
+        <li>Chan, B. W.-C. (2019). Lenia: biology of artificial life. <i>Complex Systems</i>, 28(3), 251–286.</li>
+        <li>Dorward, L. J., Mittermeier, J. C., Sandbrook, C. &amp; Spooner, F. (2017). Pokémon Go: benefits, costs, and lessons for the conservation movement. <i>Conservation Letters</i>, 10(1), 160–165.</li>
+        <li>Fizek, S., Eggel, D. R., Lindner, M., Paller, C., Limpach, O., Derivry, H., Grünberg, I. &amp; Taeger, M. (2025). <i>Green Transition at Play: State of the Art Report on the Environmental and Social Sustainability of Video and Board Game Industries</i>. Project STRATEGIES. <a href="https://www.strategieshorizon.eu" target="_blank" rel="noopener">strategieshorizon.eu</a>.</li>
+        <li>Gardner, M. (1970). Mathematical games: the fantastic combinations of John Conway's new solitaire game "life". <i>Scientific American</i>, 223(4), 120–123.</li>
+        <li>Grand, S., Cliff, D. &amp; Malhotra, A. (1997). Creatures: artificial life autonomous software agents for home entertainment. <i>Proceedings of the First International Conference on Autonomous Agents</i>.</li>
+        <li>Koshland, D. E. (2002). The seven pillars of life. <i>Science</i>, 295(5563), 2215–2216.</li>
+        <li>Kriegman, S., Blackiston, D., Levin, M. &amp; Bongard, J. (2020). A scalable pipeline for designing reconfigurable organisms. <i>Proceedings of the National Academy of Sciences</i>, 117(4), 1853–1859.</li>
+        <li>Kumar, A., Lu, C., Kirsch, L., Tang, Y., Stanley, K. O., Isola, P. &amp; Ha, D. (2024). Automating the search for artificial life with foundation models. arXiv:2412.17799.</li>
+        <li>Langton, C. G. (Ed.) (1989). <i>Artificial Life</i>. Addison-Wesley.</li>
+        <li>Lehman, J. &amp; Stanley, K. O. (2011). Abandoning objectives: evolution through the search for novelty alone. <i>Evolutionary Computation</i>, 19(2), 189–223.</li>
+        <li>Lenski, R. E., Ofria, C., Pennock, R. T. &amp; Adami, C. (2003). The evolutionary origin of complex features. <i>Nature</i>, 423, 139–144.</li>
+        <li>Meadows, D. H. (2008). <i>Thinking in Systems: A Primer</i>. Chelsea Green.</li>
+        <li>Mordvintsev, A., Randazzo, E., Niklasson, E. &amp; Levin, M. (2020). Growing neural cellular automata. <i>Distill</i>. <a href="https://distill.pub/2020/growing-ca/" target="_blank" rel="noopener">distill.pub/2020/growing-ca</a>.</li>
+        <li>op de Beke, L., Raessens, J., Werning, S. &amp; Farca, G. (Eds.) (2024). <i>Ecogames: Playful Perspectives on the Climate Crisis</i>. Amsterdam University Press.</li>
+        <li>Packard, N., Bedau, M. A., Channon, A., Ikegami, T., Rasmussen, S., Stanley, K. O. &amp; Taylor, T. (2019). An overview of open-ended evolution: editorial introduction to the Open-Ended Evolution II special issue. <i>Artificial Life</i>, 25(2), 93–103.</li>
+        <li>Ray, T. S. (1991). An approach to the synthesis of life. In C. G. Langton et al. (Eds.), <i>Artificial Life II</i> (pp. 371–408). Addison-Wesley.</li>
+        <li>Sims, K. (1994). Evolving virtual creatures. <i>Proceedings of SIGGRAPH '94</i>, 15–22.</li>
+        <li>Stanley, K. O. &amp; Miikkulainen, R. (2002). Evolving neural networks through augmenting topologies. <i>Evolutionary Computation</i>, 10(2), 99–127.</li>
+        <li>von Neumann, J. (1966). <i>Theory of Self-Reproducing Automata</i> (A. W. Burks, Ed.). University of Illinois Press.</li>
+      </ul>
+      <p class="muted-note">Data: the <a href="games.html">games</a> and <a href="charts.html">charts</a> pages of this site. Method details: <a href="games.html#method">ALife score</a>, <a href="games.html#eco-method">environmental score</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>ALife Game Dev · non-profit · organised by Izva</span>
+    <span>Contact: <a href="mailto:icvara.aor@gmail.com">icvara.aor@gmail.com</a></span>
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip" role="status" hidden></div>
+
+<script src="assets/site.js"></script>
+<script src="assets/games.js"></script>
+<script src="assets/paper.js"></script>
+</body>
+</html>
