@@ -13,12 +13,15 @@
     { key: "other",   label: "Elsewhere", color: "var(--s3)", shape: "triangle" },
     { key: "project", label: "Projects",  color: "var(--s3)", shape: "diamond" },
     { key: "related", label: "Related",   color: "var(--s3)", shape: "cross" },
+    // Comparison group: popular non-ALife Steam games, in neutral grey (hollow marks) so it reads as context.
+    { key: "reference", label: "Popular on Steam", color: "var(--ref)", shape: "ring" },
   ];
   const groupOf = k => GROUPS.find(g => g.key === k);
+  const isRef = g => g.platform === "reference";
 
   // Dedupe: Spore is both on Steam and in Related; keep the Steam entry.
   const seen = new Set();
-  const ALL = [...GAMES, ...ITCH_GAMES, ...OTHER_GAMES, ...PROJECTS, ...RELATED]
+  const ALL = [...GAMES, ...ITCH_GAMES, ...OTHER_GAMES, ...PROJECTS, ...RELATED, ...REFERENCE]
     .filter(g => g.score && !seen.has(g.name) && seen.add(g.name));
 
   const active = new Set(GROUPS.map(g => g.key));
@@ -58,6 +61,7 @@
 
   function shape(parent, kind, x, y, r, fill) {
     const common = { fill, stroke: "var(--surface)", "stroke-width": 2 };
+    if (kind === "ring") return el("circle", { cx: x, cy: y, r: r - 0.5, fill: "var(--surface)", stroke: fill, "stroke-width": 2 }, parent);
     if (kind === "circle") return el("circle", { cx: x, cy: y, r, ...common }, parent);
     if (kind === "square") return el("rect", { x: x - r, y: y - r, width: 2 * r, height: 2 * r, rx: 1.5, ...common }, parent);
     if (kind === "triangle") return el("path", { d: `M${x},${y - r * 1.2} L${x + r * 1.1},${y + r * 0.8} L${x - r * 1.1},${y + r * 0.8}Z`, ...common }, parent);
@@ -87,7 +91,7 @@
   // ---------- 1. scatter ----------
   const X_OPTIONS = {
     year:   { label: "release year", get: yearOf },
-    steam:  { label: "Steam reviews", get: g => g.platform === "steam" && g.popularity > 0 ? g.popularity : null, log: true },
+    steam:  { label: "Steam reviews", get: g => (g.platform === "steam" || isRef(g)) && g.popularity > 0 ? g.popularity : null, log: true },
     itch:   { label: "itch.io ratings", get: g => g.platform === "itch" && g.popularity > 0 ? g.popularity : null, log: true },
   };
   let xKey = "year";
@@ -183,7 +187,7 @@
     }
 
     const notes = { year: "itch.io games have no release date, and unreleased games are left out.",
-      steam: "Steam games only. Unreleased games have no reviews yet.",
+      steam: "Steam games only (including the grey popular games). Unreleased games have no reviews yet.",
       itch: "itch.io games only, by number of player ratings." };
     document.getElementById("scatter-note").textContent =
       `${rows.length} games shown${missing ? `, ${missing} without this data left out` : ""}. ${notes[xKey]}`;
@@ -191,30 +195,43 @@
 
   // ---------- 2. criteria distribution (stacked bars) ----------
   const LEVELS = [["0", "none", "var(--o0)"], ["1", "partly", "var(--o1)"], ["2", "fully", "var(--o2)"]];
-  document.getElementById("crit-legend").innerHTML =
-    LEVELS.map(([v, l, c]) => `<span><i style="background:${c}"></i>${v}: ${l}</span>`).join("");
+  const critLegend = () => {
+    document.getElementById("crit-legend").innerHTML =
+      LEVELS.map(([v, l, c]) => `<span><i style="background:${c}"></i>${v}: ${l}</span>`).join("") +
+      (active.has("reference") ? `<span class="legend-sep">popular games, same levels in grey:</span>` +
+        [0, 1, 2].map(v => `<span><i style="background:var(--r${v})"></i>${v}</span>`).join("") : "");
+  };
 
+  // One bar per criterion for the ALife games, plus a second bar for the popular games when that group is on.
   function renderCriteria() {
-    const rows = data();
+    const sets = [["ALife games", data().filter(g => !isRef(g))]];
+    if (active.has("reference")) sets.push(["popular games", data().filter(isRef)]);
     const box = document.getElementById("criteria");
-    const rowH = 34, m = { l: 92, r: 64, t: 6, b: 6 };
-    const { svg, w } = svgFor(box, m.t + m.b + rowH * SCORE_CRITERIA.length);
+    const barH = 18, gap = 4, blockH = sets.length * (barH + gap) + 14;
+    const m = { l: 92, r: 64, t: 6, b: 6 };
+    const { svg, w } = svgFor(box, m.t + m.b + blockH * SCORE_CRITERIA.length);
     const iw = w - m.l - m.r;
     SCORE_CRITERIA.forEach(([name], i) => {
-      const y = m.t + i * rowH + 7, bh = rowH - 14;
-      el("text", { x: m.l - 10, y: y + bh / 2 + 4, class: "tick", "text-anchor": "end" }, svg).textContent = name;
-      const counts = [0, 1, 2].map(v => rows.filter(g => g.score[i] === v));
-      let x = m.l;
-      counts.forEach((list, v) => {
-        const sw = rows.length ? (list.length / rows.length) * iw : 0;
-        if (sw <= 0) return;
-        const seg = el("rect", { x: x + (v ? 1 : 0), y, width: Math.max(0, sw - (v ? 1 : 0) - (v < 2 ? 1 : 0)), height: bh, rx: 2, fill: LEVELS[v][2] }, svg);
-        seg.addEventListener("pointermove", e => showTip(`<b>${name}: ${v}</b> (${LEVELS[v][1]})<br>${list.length} of ${rows.length} games<br><span class="tip-muted">${list.slice(0, 8).map(g => g.name).join(", ")}${list.length > 8 ? "…" : ""}</span>`, e.clientX, e.clientY));
-        seg.addEventListener("pointerleave", hideTip);
-        x += sw;
+      const top = m.t + i * blockH + 4;
+      sets.forEach(([setName, rows], si) => {
+        const y = top + si * (barH + gap);
+        if (si === 0) el("text", { x: m.l - 10, y: y + barH / 2 + 4, class: "tick crit-name", "text-anchor": "end" }, svg).textContent = name;
+        if (sets.length > 1) el("text", { x: m.l - 10, y: y + barH / 2 + 4 + (si === 0 ? 0 : 0), class: "tick sub", "text-anchor": "end" }, svg)
+          .textContent = si === 0 ? "" : "popular";
+        let x = m.l;
+        [0, 1, 2].forEach(v => {
+          const list = rows.filter(g => g.score[i] === v);
+          const sw = rows.length ? (list.length / rows.length) * iw : 0;
+          if (sw <= 0) return;
+          const fill = setName === "popular games" ? `var(--r${v})` : LEVELS[v][2];
+          const seg = el("rect", { x: x + (v ? 1 : 0), y, width: Math.max(0, sw - (v ? 1 : 0) - (v < 2 ? 1 : 0)), height: barH, rx: 2, fill }, svg);
+          seg.addEventListener("pointermove", e => showTip(`<b>${name}: ${v}</b> (${LEVELS[v][1]}), ${setName}<br>${list.length} of ${rows.length}<br><span class="tip-muted">${list.slice(0, 8).map(g => g.name).join(", ")}${list.length > 8 ? "…" : ""}</span>`, e.clientX, e.clientY));
+          seg.addEventListener("pointerleave", hideTip);
+          x += sw;
+        });
+        const avg = rows.length ? rows.reduce((s, g) => s + g.score[i], 0) / rows.length : 0;
+        el("text", { x: m.l + iw + 8, y: y + barH / 2 + 4, class: "tick" }, svg).textContent = `avg ${avg.toFixed(1)}`;
       });
-      const avg = rows.length ? rows.reduce((s, g) => s + g.score[i], 0) / rows.length : 0;
-      el("text", { x: m.l + iw + 8, y: y + bh / 2 + 4, class: "tick" }, svg).textContent = `avg ${avg.toFixed(1)}`;
     });
   }
 
@@ -225,23 +242,30 @@
     const { svg, w, h } = svgFor(box, 220);
     const m = { l: 36, r: 10, t: 12, b: 34 };
     const iw = w - m.l - m.r, ih = h - m.t - m.b;
-    const bins = Array.from({ length: 13 }, (_, s) => rows.filter(g => g.scoreTotal === s));
-    const max = Math.max(1, ...bins.map(b => b.length));
+    // Two series side by side in each score bin: ALife games (blue) and popular games (grey).
+    const series = [["ALife games", rows.filter(g => !isRef(g)), "var(--s1)"]];
+    if (active.has("reference")) series.push(["popular games", rows.filter(isRef), "var(--ref)"]);
+    const bins = series.map(([, list]) => Array.from({ length: 13 }, (_, s) => list.filter(g => g.scoreTotal === s)));
+    const max = Math.max(1, ...bins.flat().map(b => b.length));
     const step = Math.max(1, Math.ceil(max / 4));
     for (let v = 0; v <= max; v += step) {
       el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih - (v / max) * ih, y2: m.t + ih - (v / max) * ih, class: v ? "grid" : "axis" }, svg);
       el("text", { x: m.l - 8, y: m.t + ih - (v / max) * ih + 4, class: "tick", "text-anchor": "end" }, svg).textContent = v;
     }
-    const bw = iw / 13;
-    bins.forEach((list, s) => {
-      const bh = (list.length / max) * ih, x = m.l + s * bw + 2;
-      if (list.length) {
-        const bar = el("path", { d: roundTop(x, m.t + ih - bh, bw - 4, bh, 4), fill: "var(--s1)" }, svg);
-        bar.addEventListener("pointermove", e => showTip(`<b>Score ${s}/12</b>: ${list.length} game${list.length > 1 ? "s" : ""}<br><span class="tip-muted">${list.slice(0, 10).map(g => g.name).join(", ")}${list.length > 10 ? "…" : ""}</span>`, e.clientX, e.clientY));
+    const bw = iw / 13, sub = (bw - 4) / series.length;
+    for (let s = 0; s <= 12; s++) {
+      series.forEach(([name, , color], k) => {
+        const list = bins[k][s];
+        if (!list.length) return;
+        const bh = (list.length / max) * ih, x = m.l + s * bw + 2 + k * sub;
+        const bar = el("path", { d: roundTop(x + (k ? 1 : 0), m.t + ih - bh, sub - (series.length > 1 ? 1 : 0), bh, 3), fill: color }, svg);
+        bar.addEventListener("pointermove", e => showTip(`<b>Score ${s}/12</b>, ${name}: ${list.length}<br><span class="tip-muted">${list.slice(0, 10).map(g => g.name).join(", ")}${list.length > 10 ? "…" : ""}</span>`, e.clientX, e.clientY));
         bar.addEventListener("pointerleave", hideTip);
-      }
+      });
       el("text", { x: m.l + s * bw + bw / 2, y: m.t + ih + 16, class: "tick", "text-anchor": "middle" }, svg).textContent = s;
-    });
+    }
+    document.getElementById("hist-legend").innerHTML = series.length > 1
+      ? series.map(([n, , c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("") : "";
     el("text", { x: m.l + iw / 2, y: h - 4, class: "axis-label", "text-anchor": "middle" }, svg).textContent = "ALife score (out of 12)";
   }
   // Bar with rounded top corners, anchored flat on the baseline.
@@ -263,7 +287,7 @@
     groups.forEach(({ g, n, avg }, i) => {
       const y = m.t + i * rowH + 6, bh = rowH - 12, bw = (avg / 12) * iw;
       el("text", { x: m.l - 10, y: y + bh / 2 + 4, class: "tick", "text-anchor": "end" }, svg).textContent = g.label;
-      el("path", { d: roundRight(m.l, y, bw, bh, 4), fill: "var(--s1)" }, svg);
+      el("path", { d: roundRight(m.l, y, bw, bh, 4), fill: g.key === "reference" ? "var(--ref)" : "var(--s1)" }, svg);
       el("text", { x: m.l + bw + 8, y: y + bh / 2 + 4, class: "value" }, svg).textContent = `${avg.toFixed(1)} / 12`;
       el("text", { x: m.l + bw + 8 + 62, y: y + bh / 2 + 4, class: "tick" }, svg).textContent = `(${n})`;
     });
@@ -302,7 +326,7 @@
     renderTable();
   });
 
-  function renderAll() { renderScatter(); renderCriteria(); renderHistogram(); renderByGroup(); renderTable(); }
+  function renderAll() { renderScatter(); critLegend(); renderCriteria(); renderHistogram(); renderByGroup(); renderTable(); }
   renderAll();
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(renderAll, 150); });
 })();

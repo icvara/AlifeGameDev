@@ -14,6 +14,8 @@
   --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
   --o0: #6da7ec; --o1: #2a78d6; --o2: #104281;
   --gridline: #e1dccd; --axisline: #b9b2a0;
+  /* Popular-games comparison: neutral grey (validated ordinal ramp) */
+  --ref: #6f6a5e; --r0: #aaa494; --r1: #7a7466; --r2: #45413a;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -24,6 +26,7 @@
     --s1: #3987e5; --s2: #d95926; --s3: #199e70;
     --o0: #184f95; --o1: #3987e5; --o2: #9ec5f4;
     --gridline: #2c2b27; --axisline: #46433b;
+    --ref: #a39d8e; --r0: #5a564c; --r1: #8a8577; --r2: #c6c1b3;
   }
 }
 :root[data-theme="dark"] {
@@ -34,6 +37,7 @@
   --s1: #3987e5; --s2: #d95926; --s3: #199e70;
   --o0: #184f95; --o1: #3987e5; --o2: #9ec5f4;
   --gridline: #2c2b27; --axisline: #46433b;
+  --ref: #a39d8e; --r0: #5a564c; --r1: #8a8577; --r2: #c6c1b3;
 }
 
 /* ---- Charts page ---- */
@@ -301,3 +305,4 @@ footer {
   .games { grid-template-columns: 1fr; gap: 28px; }
   .survey { padding: 22px 18px 4px; box-shadow: 4px 4px 0 var(--rule); }
 }
+.legend .legend-sep { color: var(--faint); margin-left: 8px; }

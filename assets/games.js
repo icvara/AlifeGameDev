@@ -277,6 +277,27 @@ const RELATED = [
     text: "Creature collecting with breeding that passes hidden stats to offspring, and creatures that \"evolve\". A huge influence on creature games, but there's no simulated life or ecosystem behind it." },
 ];
 
+
+// ---- Popular Steam games, for comparison on the charts page only ----
+// Not artificial life games: they show where mainstream hits land on the same ALife score.
+const REFERENCE = [
+  { name: "Counter-Strike 2", date: "2012-08-21", year: "2012 (as CS:GO)", dev: "Valve", link: steamPage(730) },
+  { name: "Dota 2", date: "2013-07-09", year: "2013", dev: "Valve", link: steamPage(570) },
+  { name: "PUBG: Battlegrounds", date: "2017-12-21", year: "2017", dev: "PUBG Corporation", link: steamPage(578080) },
+  { name: "Grand Theft Auto V", date: "2015-04-13", year: "2015", dev: "Rockstar North", link: steamPage(271590) },
+  { name: "Baldur's Gate 3", date: "2023-08-03", year: "2023", dev: "Larian Studios", link: steamPage(1086940) },
+  { name: "Elden Ring", date: "2022-02-24", year: "2022", dev: "FromSoftware", link: steamPage(1245620) },
+  { name: "Stardew Valley", date: "2016-02-26", year: "2016", dev: "ConcernedApe", link: steamPage(413150) },
+  { name: "Terraria", date: "2011-05-16", year: "2011", dev: "Re-Logic", link: steamPage(105600) },
+  { name: "The Witcher 3: Wild Hunt", date: "2015-05-18", year: "2015", dev: "CD Projekt Red", link: steamPage(292030) },
+  { name: "Cyberpunk 2077", date: "2020-12-09", year: "2020", dev: "CD Projekt Red", link: steamPage(1091500) },
+  { name: "RimWorld", date: "2018-10-17", year: "2018", dev: "Ludeon Studios", link: steamPage(294100) },
+  { name: "Factorio", date: "2020-08-14", year: "2020", dev: "Wube Software", link: steamPage(427520) },
+  { name: "Civilization VI", date: "2016-10-20", year: "2016", dev: "Firaxis Games", link: steamPage(289070) },
+  { name: "Skyrim Special Edition", date: "2016-10-27", year: "2016", dev: "Bethesda Game Studios", link: steamPage(489830) },
+  { name: "Valheim", date: "2021-02-02", year: "2021 (early access)", dev: "Iron Gate", link: steamPage(892970) },
+];
+
 // ---- ALife score ----
 // A rough, editorial estimate of how much artificial life a game simulates. Not a quality rating.
 // Six criteria, each 0, 1 or 2 (total out of 12), in this order:
@@ -363,6 +384,22 @@ const SCORES = {
   // Related
   "The Sims":                        [2, 0, 1, 1, 0, 2, "autonomous agents with needs; children inherit some traits"],
   "Pokémon":                         [0, 0, 1, 1, 0, 0, "breeding passes on hidden stats; no simulated life"],
+  // Popular Steam games (comparison only)
+  "Counter-Strike 2":                [0, 0, 0, 0, 0, 0, "a competitive shooter; nothing is simulated as life"],
+  "Dota 2":                          [1, 0, 0, 0, 0, 0, "scripted creeps follow lanes"],
+  "PUBG: Battlegrounds":             [0, 0, 0, 0, 0, 0, "a battle royale; nothing is simulated as life"],
+  "Grand Theft Auto V":              [1, 0, 0, 0, 0, 1, "pedestrians and wildlife with simple routines, plenty of unscripted chaos"],
+  "Baldur's Gate 3":                 [0, 0, 0, 0, 0, 1, "systemic interactions, but scripted characters"],
+  "Elden Ring":                      [1, 0, 0, 0, 0, 0, "enemies with scripted behaviour"],
+  "Stardew Valley":                  [1, 0, 0, 0, 0, 0, "farm animals with simple needs"],
+  "Terraria":                        [1, 0, 0, 0, 1, 1, "biomes like the Corruption spread on their own"],
+  "The Witcher 3: Wild Hunt":        [1, 0, 0, 0, 0, 0, "NPCs with daily routines"],
+  "Cyberpunk 2077":                  [1, 0, 0, 0, 0, 0, "crowds with simple routines"],
+  "RimWorld":                        [2, 0, 1, 1, 1, 2, "colonists driven by needs and moods, detailed bodies, animals that breed; famous for emergent stories"],
+  "Factorio":                        [1, 0, 0, 0, 1, 1, "biters react to your pollution and grow stronger over time"],
+  "Civilization VI":                 [1, 0, 0, 0, 0, 1, "AI civilisations with their own agendas"],
+  "Skyrim Special Edition":          [1, 0, 0, 0, 1, 1, "Radiant AI routines; predators hunt prey in the wild"],
+  "Valheim":                         [1, 0, 0, 0, 0, 1, "creatures with simple behaviour; tamed animals breed"],
   "Intelligent Design: An Evolutionary Sandbox": [2, 0, 2, 2, 2, 2, "simulated genetics: species appear, boom, bust and go extinct on their own"],
   "Horsey Game":                     [2, 0, 1, 2, 1, 1, "wild horses breed and mutate on their own, with a predator–prey system (even if it can collapse)"],
 };
@@ -376,14 +413,19 @@ const STEAM_REVIEWS = {
   "Dr. Derk's Mutant Battlegrounds": 19, "The Sapling": 1994, "Biotope": 183, "Aivolution": 16, "Uagi-Saba": 13,
   "Equilinox": 2609, "Vilmonic": 68, "Species: ALRE": 976, "Eco": 11420, "Niche": 4363, "Rain World": 48112,
   "Gridworld": 239, "Spore": 67441, "Creatures Docking Station": 219, "Intelligent Design: An Evolutionary Sandbox": 98,
+  // popular games (comparison)
+  "Counter-Strike 2": 5357081, "Dota 2": 844496, "PUBG: Battlegrounds": 1769137, "Grand Theft Auto V": 1902091,
+  "Baldur's Gate 3": 761886, "Elden Ring": 836365, "Stardew Valley": 905663, "Terraria": 1251450,
+  "The Witcher 3: Wild Hunt": 853596, "Cyberpunk 2077": 914996, "RimWorld": 211907, "Factorio": 197706,
+  "Civilization VI": 277833, "Skyrim Special Edition": 224533, "Valheim": 268359,
 };
 
-for (const [platform, list] of [["steam", GAMES], ["itch", ITCH_GAMES], ["other", OTHER_GAMES], ["project", PROJECTS], ["related", RELATED]]) {
+for (const [platform, list] of [["steam", GAMES], ["itch", ITCH_GAMES], ["other", OTHER_GAMES], ["project", PROJECTS], ["related", RELATED], ["reference", REFERENCE]]) {
   for (const g of list) {
     g.platform = platform;
     const s = SCORES[g.name];
     if (s) { g.score = s.slice(0, 6); g.scoreWhy = s[6]; g.scoreTotal = s.slice(0, 6).reduce((a, b) => a + b, 0); }
-    g.popularity = platform === "steam" ? STEAM_REVIEWS[g.name] : g.ratings;
+    g.popularity = platform === "steam" || platform === "reference" ? STEAM_REVIEWS[g.name] : g.ratings;
   }
 }
 
