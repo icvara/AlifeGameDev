@@ -1,0 +1,9 @@
+# Local tool settings (the preview server config), not part of the website
+.claude/
+
+# Operating system and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.swp

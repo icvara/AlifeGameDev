@@ -1,0 +1,303 @@
+:root {
+  --paper: #f3efe4;
+  --ink: #24221d;
+  --faint: #6f6a5e;
+  --rule: #d8d1bf;
+  --mark: #2e6b4f;
+  --hl: #e6dfa8;
+  --cell: 46, 107, 79;
+  --prey: 176, 128, 32;
+  --pred: 178, 64, 42;
+  /* Charts page. Validated with the dataviz palette checker against this paper colour:
+     s1-s3 all-pairs for scatter, o0-o2 as an ordinal ramp. */
+  --surface: #f3efe4;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  --o0: #6da7ec; --o1: #2a78d6; --o2: #104281;
+  --gridline: #e1dccd; --axisline: #b9b2a0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1a1916; --ink: #e9e4d6; --faint: #a39d8e; --rule: #3a372f;
+    --mark: #8cc7a6; --hl: #4a4526; --cell: 140, 199, 166;
+    --prey: 222, 184, 96; --pred: 230, 118, 92;
+    --surface: #1a1916;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+    --o0: #184f95; --o1: #3987e5; --o2: #9ec5f4;
+    --gridline: #2c2b27; --axisline: #46433b;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1a1916; --ink: #e9e4d6; --faint: #a39d8e; --rule: #3a372f;
+  --mark: #8cc7a6; --hl: #4a4526; --cell: 140, 199, 166;
+  --prey: 222, 184, 96; --pred: 230, 118, 92;
+  --surface: #1a1916;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+  --o0: #184f95; --o1: #3987e5; --o2: #9ec5f4;
+  --gridline: #2c2b27; --axisline: #46433b;
+}
+
+/* ---- Charts page ---- */
+.viz .chart-block { padding-top: 48px; }
+.viz .chart-block h2 { margin-bottom: 8px; }
+.viz .plot { width: 100%; margin-top: 12px; }
+.viz .plot svg { display: block; overflow: visible; }
+.viz .plot text { font-family: "IBM Plex Mono", monospace; }
+.viz .tick { font-size: 11px; fill: var(--faint); font-variant-numeric: tabular-nums; }
+.viz .axis-label { font-size: 11px; fill: var(--faint); }
+.viz .value { font-size: 12px; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.viz .point-label { font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.viz .grid { stroke: var(--gridline); stroke-width: 1; }
+.viz .axis { stroke: var(--axisline); stroke-width: 1; }
+.viz .hot { stroke: var(--ink); stroke-width: 2; }
+.viz .chart-note { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); margin-top: 6px; }
+.viz .filters button { display: inline-flex; align-items: center; gap: 6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.tooltip {
+  position: fixed; z-index: 50; pointer-events: none; max-width: 300px;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--rule); padding: 8px 10px;
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; line-height: 1.45;
+}
+.tooltip .tip-muted { color: var(--faint); }
+.table-wrap { overflow-x: auto; margin-top: 12px; border-top: 1px solid var(--ink); }
+.fingerprint { border-collapse: collapse; width: 100%; font-family: "IBM Plex Mono", monospace; font-size: 12px; font-variant-numeric: tabular-nums; }
+.fingerprint th, .fingerprint td { padding: 5px 5px; border-bottom: 1px solid var(--rule); text-align: left; white-space: nowrap; }
+.fingerprint thead th { cursor: pointer; color: var(--faint); font-weight: 500; user-select: none; }
+.fingerprint thead th:hover { color: var(--ink); }
+.fingerprint tbody th { font-weight: 500; white-space: normal; min-width: 150px; }
+.fingerprint tbody th a { text-decoration: none; }
+.fingerprint .grp { color: var(--faint); }
+.fingerprint .num b { font-weight: 500; }
+.fingerprint .lvl { text-align: center; width: 30px; border-left: 2px solid var(--surface); }
+.fingerprint .l0 { background: var(--o0); color: #0b0b0b; }
+.fingerprint .l1 { background: var(--o1); color: #ffffff; }
+.fingerprint .l2 { background: var(--o2); color: #ffffff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .fingerprint .l0 { color: #f0efec; }
+  :root:not([data-theme="light"]) .fingerprint .l2 { color: #0b0b0b; }
+}
+:root[data-theme="dark"] .fingerprint .l0 { color: #f0efec; }
+:root[data-theme="dark"] .fingerprint .l2 { color: #0b0b0b; }
+.chart { display: block; width: 100%; height: 70px; margin-top: 10px; border: 1px solid var(--rule); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.key i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 19px/1.6 "Source Serif 4", Georgia, serif;
+}
+.page { max-width: 660px; margin: 0 auto; padding: 56px 20px 40px; }
+
+a { color: var(--ink); text-decoration-color: var(--mark); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { color: var(--mark); }
+
+.mono, .label, nav, figcaption, .meta, .yr, .controls { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+/* Header */
+.label { font-size: 13px; color: var(--faint); letter-spacing: .02em; margin: 0 0 28px; }
+h1 {
+  font-weight: 600;
+  font-size: clamp(36px, 7vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0 0 28px;
+}
+.intro p { margin: 0 0 18px; }
+.hl { background: linear-gradient(transparent 55%, var(--hl) 55%); padding: 0 2px; }
+
+/* Top menu: stays at the top of the screen while scrolling */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+}
+.topbar .in {
+  max-width: 660px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; gap: 8px 22px; flex-wrap: wrap;
+  min-height: 52px;
+}
+.topbar .brand {
+  font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 18px;
+  text-decoration: none; margin-right: auto; white-space: nowrap;
+}
+nav { font-size: 14px; display: flex; gap: 4px 20px; flex-wrap: wrap; padding: 8px 0; }
+nav a { text-decoration: none; color: var(--faint); white-space: nowrap; }
+nav a:hover { color: var(--ink); text-decoration: underline; }
+nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--mark); }
+
+/* Sub-page header */
+.page-head { margin-bottom: 8px; }
+.page-head h1 { font-size: clamp(32px, 6vw, 44px); margin-bottom: 18px; }
+.page-head .lede { font-size: 20px; }
+
+/* Small "go further" link at the end of a home-page section */
+.more { font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+
+/* Home: survey callout */
+.callout {
+  border: 1px solid var(--ink); box-shadow: 6px 6px 0 var(--rule);
+  padding: 22px 24px 6px; margin-top: 8px;
+}
+.callout .btn { margin-top: 0; margin-bottom: 0; }
+.callout .meta, .survey .meta { font-size: 13px; color: var(--faint); margin-bottom: 18px; }
+
+/* Games page: filter */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+.filters button {
+  font: inherit; background: none; color: var(--ink);
+  border: 1px solid var(--rule); padding: 4px 10px; cursor: pointer;
+}
+.filters button:hover { border-color: var(--ink); }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.count { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--faint); margin: 14px 0 0; }
+/* YouTube page */
+.channels { list-style: none; padding: 0; margin: 24px 0; border-top: 1px solid var(--rule); }
+.channels li { display: grid; grid-template-columns: 64px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+.channels .avatar img { width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--ink); display: block; }
+.channels h3 { font-size: 20px; font-weight: 600; margin: 0; line-height: 1.25; }
+.channels h3 a { text-decoration: none; }
+.channels h3 a:hover { text-decoration: underline; }
+.channels .handle { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); margin: 2px 0 6px; }
+.channels p { font-size: 16px; line-height: 1.5; color: var(--faint); margin: 0; }
+.channels .handle + p { color: var(--faint); }
+
+.jump { display: flex; flex-wrap: wrap; gap: 6px 20px; font-family: "IBM Plex Mono", monospace; font-size: 14px; margin: 24px 0 0; }
+.muted-note { font-size: 16px; color: var(--faint); }
+.games li.empty { grid-column: 1 / -1; font-size: 16px; color: var(--faint); font-style: italic; }
+/* Drawn placeholder when a game has no image */
+.games .ph {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  aspect-ratio: 460 / 215; padding: 12px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(var(--cell), .35) 0 6px, transparent 7px),
+    radial-gradient(circle at 70% 65%, rgba(var(--cell), .25) 0 10px, transparent 11px),
+    radial-gradient(circle at 85% 20%, rgba(var(--prey), .35) 0 4px, transparent 5px),
+    linear-gradient(var(--rule) 1px, transparent 1px) 0 0 / 18px 18px,
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--paper);
+}
+.games .ph span {
+  font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 22px; line-height: 1.15;
+  color: var(--ink); background: var(--paper); padding: 2px 8px; line-height: 1.3;
+}
+/* ALife score on game cards */
+.games .score { margin: 10px 0 0; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); cursor: help; }
+.games .score-num { color: var(--ink); margin-right: 8px; }
+.games .score-num b { font-weight: 500; font-size: 15px; color: var(--mark); }
+.games .pips { display: inline-flex; gap: 5px; vertical-align: middle; }
+.games .pip-pair { display: inline-flex; gap: 1px; }
+.games .pips i { width: 6px; height: 10px; background: var(--rule); display: block; }
+.games .pips i.on { background: var(--mark); }
+.games .score-why { display: block; margin-top: 3px; line-height: 1.4; }
+details.method { margin: 14px 0 0; font-size: 16px; }
+details.method summary { cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+details.method[open] { border-left: 2px solid var(--rule); padding-left: 14px; }
+details.method p, details.method ul { margin: 10px 0; }
+.games .tags { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--mark); margin: 8px 0 0; }
+
+/* Sections */
+section { padding-top: 64px; }
+h2 {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0 0 20px;
+}
+h2 .n { font-family: "IBM Plex Mono", monospace; font-weight: 400; font-size: 15px; color: var(--mark); margin-right: 10px; vertical-align: 5px; }
+p { margin: 0 0 18px; }
+ul.plain { padding-left: 1.1em; margin: 0 0 18px; }
+ul.plain li { margin-bottom: 6px; }
+ul.plain li::marker { color: var(--mark); }
+
+/* Figure */
+figure { margin: 32px 0; }
+.stage {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--ink);
+  cursor: crosshair;
+  background:
+    linear-gradient(var(--rule) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px) 0 0 / 24px 24px;
+  background-color: var(--paper);
+}
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.controls {
+  display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center;
+  font-size: 13px; margin-top: 12px;
+}
+.controls label { display: flex; align-items: center; gap: 8px; }
+.controls input[type=range] { width: 90px; accent-color: var(--mark); }
+.controls button {
+  font: inherit; background: none; color: var(--ink);
+  border: 1px solid var(--ink); padding: 3px 10px; cursor: pointer;
+}
+.controls button:hover { background: var(--ink); color: var(--paper); }
+figcaption { font-size: 13px; color: var(--faint); margin-top: 10px; line-height: 1.5; }
+figcaption b { color: var(--ink); font-weight: 500; }
+
+/* Games */
+.games {
+  list-style: none; padding: 0; margin: 28px 0 26px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px;
+}
+.games a.shot { display: block; border: 1px solid var(--ink); line-height: 0; }
+.games img { width: 100%; aspect-ratio: 460 / 215; object-fit: cover; display: block; }
+.games .meta { font-size: 12px; color: var(--faint); margin: 10px 0 2px; }
+.games h3 { font-size: 20px; font-weight: 600; margin: 0 0 4px; line-height: 1.25; }
+.games h3 a { text-decoration: none; }
+.games h3 a:hover { text-decoration: underline; }
+.games p { font-size: 16px; line-height: 1.5; color: var(--faint); margin: 0; }
+
+/* Research */
+.papers { list-style: none; padding: 0; margin: 8px 0 22px; border-top: 1px solid var(--rule); }
+.papers li { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.papers .yr { font-family: "IBM Plex Mono", monospace; font-size: 14px; color: var(--faint); padding-top: 3px; }
+.papers .title { font-weight: 600; }
+.papers .who { display: block; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); margin: 2px 0 4px; }
+.papers .what { display: block; font-size: 16px; line-height: 1.5; color: var(--faint); }
+@media (max-width: 520px) { .papers li { grid-template-columns: 44px 1fr; gap: 12px; } }
+
+/* Survey */
+.survey {
+  margin-top: 8px;
+  padding: 28px 28px 8px;
+  border: 1px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--rule);
+}
+.survey .meta { font-size: 13px; color: var(--faint); margin-bottom: 18px; }
+.survey ol { padding-left: 1.2em; margin: 0 0 18px; }
+.survey ol li { margin-bottom: 6px; }
+.btn {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500;
+  background: var(--ink); color: var(--paper);
+  padding: 12px 20px; text-decoration: none;
+  margin: 6px 0 22px;
+}
+.btn:hover { background: var(--mark); color: var(--paper); }
+
+.sig { font-style: italic; }
+
+footer {
+  margin-top: 72px; padding-top: 16px;
+  border-top: 1px solid var(--ink);
+  font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--faint);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+
+@media (max-width: 520px) {
+  body { font-size: 18px; }
+  .page { padding: 36px 16px 32px; }
+  .topbar .in { padding: 0 16px; }
+  .topbar .brand { width: 100%; padding-top: 10px; }
+  nav { width: 100%; padding: 4px 0 10px; gap: 4px 14px; font-size: 13px; }
+  .callout { padding: 18px 16px 4px; box-shadow: 4px 4px 0 var(--rule); }
+  .games { grid-template-columns: 1fr; gap: 28px; }
+  .survey { padding: 22px 18px 4px; box-shadow: 4px 4px 0 var(--rule); }
+}

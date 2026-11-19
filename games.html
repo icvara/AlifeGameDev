@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALife Games · ALife Game Dev</title>
+<meta name="description" content="A list of games built around artificial life: evolution, genetics, neural networks, ecosystems and emergence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html">ALife Game Dev</a>
+    <nav aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="alife.html">What is ALife?</a>
+      <a href="games.html" aria-current="page">Games</a>
+      <a href="charts.html">Charts</a>
+      <a href="research.html">Research</a>
+      <a href="youtube.html">YouTube</a>
+      <a href="survey.html">Survey</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <p class="label">games</p>
+    <h1>Artificial life games</h1>
+    <p class="lede">Games where part of the design is handed over to a simulation: creatures that evolve, breed, learn, or live in ecosystems of their own. Plus the simulations and research projects that inspired them.</p>
+  </div>
+
+  <main>
+    <p class="jump">
+      <a href="#on-steam">On Steam (<span data-count="steam-games"></span>)</a>
+      <a href="#on-itch">On itch.io (<span data-count="itch-games"></span>)</a>
+      <a href="#elsewhere">Elsewhere (<span data-count="other-games"></span>)</a>
+      <a href="#projects-section">Projects (<span data-count="projects"></span>)</a>
+      <a href="#related-section">Related (<span data-count="related"></span>)</a>
+    </p>
+    <div class="filters" id="filters" role="group" aria-label="Filter by theme"></div>
+    <div class="filters" id="sort" role="group" aria-label="Sort every section">
+      <button type="button" data-order="newest">default order</button>
+      <button type="button" data-order="score">highest ALife score</button>
+    </div>
+    <details class="method" id="method">
+      <summary>How the ALife score works</summary>
+      <p>A rough estimate of how much artificial life each game actually simulates. It's <b>not a quality rating</b>: a great game can score low. Six criteria, each scored 0, 1 or 2, for a total out of 12:</p>
+      <ul class="plain" id="score-criteria"></ul>
+      <p>Scores are based on what each game says it simulates (store pages, websites, devlogs), not on long play sessions, so some will be off. Hover a score to see the breakdown, and suggest corrections in the <a href="survey.html">survey</a>. <a href="charts.html">See the scores as charts →</a></p>
+    </details>
+
+    <section id="on-steam">
+      <h2>On Steam</h2>
+      <ul class="games" id="steam-games"></ul>
+    </section>
+
+    <section id="on-itch">
+      <h2>On itch.io</h2>
+      <p class="muted-note">Smaller indie and experimental games, most rated first, with early-stage projects at the end. Many are free or pay-what-you-want. A selection: games rated 4 out of 5 or more by at least 5 players, and actually about simulated life.</p>
+      <ul class="games" id="itch-games"></ul>
+      <p class="more">Browse the rest on itch.io:
+        <a href="https://itch.io/games/tag-artificial-life" target="_blank" rel="noopener">artificial life</a> ·
+        <a href="https://itch.io/games/tag-evolution" target="_blank" rel="noopener">evolution</a> ·
+        <a href="https://itch.io/games/tag-ecosystem" target="_blank" rel="noopener">ecosystem</a> ·
+        <a href="https://itch.io/games/tag-genetic-algorithm" target="_blank" rel="noopener">genetic algorithm</a> ·
+        <a href="https://itch.io/games/tag-neural-networks" target="_blank" rel="noopener">neural networks</a> ·
+        <a href="https://itch.io/games/tag-cellular-automata" target="_blank" rel="noopener">cellular automata</a>
+      </p>
+    </section>
+
+    <section id="elsewhere">
+      <h2>Elsewhere</h2>
+      <p class="muted-note">Classics and browser games that aren't on Steam or itch.io. Newest first.</p>
+      <ul class="games" id="other-games"></ul>
+    </section>
+
+    <section id="projects-section">
+      <h2>Projects</h2>
+      <p class="muted-note">Simulations, research software and experiments: not games exactly, but where many of the ideas come from. Oldest first.</p>
+      <ul class="games" id="projects"></ul>
+    </section>
+
+    <section id="related-section">
+      <h2>Related</h2>
+      <p class="muted-note">Famous games that touch on artificial life ideas (autonomous agents, breeding, "evolution") without really being ALife. Here's how each one connects.</p>
+      <ul class="games" id="related"></ul>
+    </section>
+
+    <p>Missing a good one? Suggest it in the <a href="survey.html">survey</a>. Once the community is running, members' projects can be featured here too, only with their permission.</p>
+    <p class="muted-note">Images from each game's store page, website or Wikimedia Commons.</p>
+  </main>
+
+  <footer>
+    <span>ALife Game Dev · non-profit · organised by Izva</span>
+    <span>Contact: <a href="mailto:icvara.aor@gmail.com">icvara.aor@gmail.com</a></span>
+  </footer>
+</div>
+
+<script src="assets/site.js"></script>
+<script src="assets/games.js"></script>
+</body>
+</html>

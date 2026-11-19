@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is ALife? · ALife Game Dev</title>
+<meta name="description" content="A short introduction to artificial life, with three small simulations: flocking, evolving neural networks and a predator–prey ecosystem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html">ALife Game Dev</a>
+    <nav aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="alife.html" aria-current="page">What is ALife?</a>
+      <a href="games.html">Games</a>
+      <a href="charts.html">Charts</a>
+      <a href="research.html">Research</a>
+      <a href="youtube.html">YouTube</a>
+      <a href="survey.html">Survey</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <p class="label">introduction</p>
+    <h1>What is artificial life?</h1>
+  </div>
+
+  <main>
+    <p>Artificial life (ALife) is the study of life by trying to build it. You don't describe how living things behave. You set up simple rules and see what lifelike behaviour comes out on its own: movement, cooperation, competition, adaptation, evolution.</p>
+    <p>The field is usually split three ways: <em>soft</em> ALife (simulations in software), <em>hard</em> ALife (robots), and <em>wet</em> ALife (synthetic biology in the lab). Games live firmly on the soft side.</p>
+
+    <figure>
+      <div class="stage" id="stage"><canvas id="life"></canvas></div>
+      <div class="controls">
+        <label>cohesion <input type="range" id="c-coh" min="0" max="100" value="40"></label>
+        <label>alignment <input type="range" id="c-ali" min="0" max="100" value="50"></label>
+        <label>separation <input type="range" id="c-sep" min="0" max="100" value="50"></label>
+        <button type="button" id="c-scatter">scatter</button>
+        <button type="button" id="c-reset">reset</button>
+      </div>
+      <figcaption><b>Fig. 1</b> Flocking. Each cell only knows its neighbours: stay close, go the same way, don't bump. Nobody tells them to form groups. Click inside to add cells.</figcaption>
+    </figure>
+
+    <p>In a game, this means handing part of the design over to the simulation: creatures with their own needs and brains, species that change between play sessions, ecosystems that keep going when you look away. Things happen that nobody scripted, and that's a large part of the appeal.</p>
+
+    <h2 style="margin-top:56px">Evolving brains</h2>
+    <p>Fig. 1 runs on fixed rules. A step further is to let the rules themselves evolve. Two tools show up in many ALife games: <b>neural networks</b>, small artificial brains that turn what a creature senses into what it does, and <b>genetic algorithms</b>, which copy the best performers with small random mutations, generation after generation.</p>
+
+    <figure>
+      <div class="stage" id="stage2" style="cursor:default"><canvas id="evo"></canvas></div>
+      <div class="controls">
+        <button type="button" id="e-play">pause</button>
+        <button type="button" id="e-speed">speed ×1</button>
+        <button type="button" id="e-reset">restart</button>
+        <span id="e-stats"></span>
+      </div>
+      <figcaption><b>Fig. 2</b> Evolving brains. Each creature has a tiny neural network: it senses the direction of the nearest food and decides how to turn. The network's weights are its genes. Generation 0 is random. At the end of each round, the best eaters are copied with small mutations. After a few generations, most of them steer straight for food. The line in the corner tracks average food eaten per generation.</figcaption>
+    </figure>
+
+    <h2 style="margin-top:56px">Ecosystems</h2>
+    <p>Put several species in the same world and you get an <b>ecosystem</b>: feedback loops where every population depends on the others. More grass feeds more herbivores, more herbivores feed more predators, and too many predators empty the world of herbivores, until the predators starve and the cycle starts again.</p>
+
+    <figure>
+      <div class="stage" id="stage3" style="cursor:default"><canvas id="eco"></canvas></div>
+      <canvas class="chart" id="eco-chart" aria-hidden="true"></canvas>
+      <div class="controls">
+        <button type="button" id="k-play">pause</button>
+        <button type="button" id="k-speed">speed ×1</button>
+        <button type="button" id="k-prey">+ herbivores</button>
+        <button type="button" id="k-pred">+ predators</button>
+        <button type="button" id="k-reset">restart</button>
+      </div>
+      <div class="controls">
+        <span class="key"><i style="background:rgb(var(--cell))"></i>grass</span>
+        <span class="key"><i style="background:rgb(var(--prey))"></i>herbivores <b id="k-nprey">0</b></span>
+        <span class="key"><i style="background:rgb(var(--pred))"></i>predators <b id="k-npred">0</b></span>
+      </div>
+      <figcaption><b>Fig. 3</b> A small ecosystem. Grass grows back slowly. Herbivores wander, graze, and flee nearby predators. Predators chase the closest herbivore. Every animal burns energy as it moves, splits in two when it has eaten enough, and dies when it runs out. Nobody programs the boom-and-bust cycles in the chart below the world: they come from the interactions. Try adding predators and watch what happens. If a species dies out, a few newcomers wander in after a while.</figcaption>
+    </figure>
+
+    <p class="more"><a href="games.html">See these ideas in real games →</a></p>
+  </main>
+
+  <footer>
+    <span>ALife Game Dev · non-profit · organised by Izva</span>
+    <span>Contact: <a href="mailto:icvara.aor@gmail.com">icvara.aor@gmail.com</a></span>
+  </footer>
+</div>
+
+<script src="assets/site.js"></script>
+<script src="assets/figures.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube · ALife Game Dev</title>
+<meta name="description" content="YouTube channels about artificial life: evolution simulators, emergent systems, and coding your own.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html">ALife Game Dev</a>
+    <nav aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="alife.html">What is ALife?</a>
+      <a href="games.html">Games</a>
+      <a href="charts.html">Charts</a>
+      <a href="research.html">Research</a>
+      <a href="youtube.html" aria-current="page">YouTube</a>
+      <a href="survey.html">Survey</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <p class="label">youtube</p>
+    <h1>Artificial life on YouTube</h1>
+    <p class="lede">Channels that build, explain or explore artificial life: evolution simulators, emergent systems, and tutorials for coding your own.</p>
+  </div>
+
+  <main>
+    <p class="jump"><a href="#explainers">Channels</a><a href="#in-development">In development</a></p>
+
+    <section id="explainers" style="padding-top:32px">
+      <h2>Channels</h2>
+      <p class="muted-note">Explainers, experiments and tutorials.</p>
+      <ul class="channels" id="channels"></ul>
+    </section>
+
+    <section id="in-development">
+      <h2>In development</h2>
+      <p class="muted-note">Devlogs from people building artificial life games and simulations right now. A good way to follow a project from the inside, and to see how others solve the same problems.</p>
+      <ul class="channels" id="devlogs"></ul>
+    </section>
+
+    <p>The International Society for Artificial Life keeps its own <a href="https://alife.org/encyclopedia/introduction/youtube-videos/" target="_blank" rel="noopener">list of ALife videos</a>, including conference talks. Know a channel that belongs here? Suggest it in the <a href="survey.html">survey</a>.</p>
+  </main>
+
+  <footer>
+    <span>ALife Game Dev · non-profit · organised by Izva</span>
+    <span>Contact: <a href="mailto:icvara.aor@gmail.com">icvara.aor@gmail.com</a></span>
+  </footer>
+</div>
+
+<script src="assets/site.js"></script>
+<script>
+  // ---- Channels: add or remove entries here (shown in this order) ----
+  // avatar: the channel's YouTube profile picture.
+  const yt = id => `https://yt3.googleusercontent.com/${id}=s176-c-k-c0x00ffffff-no-rj`;
+  const CHANNELS = [
+    { name: "Emergent Garden", handle: "EmergentGarden",
+      avatar: yt("T7V95FKP-p56ayK29ARlsdWWDn91lsJ9s1QdrRzZoo8Peu0NecsuttRyLIswvgaFQDlglHCMCQ"),
+      text: "Artificial life, AI, emergence and \"weird programs\". Made by the creator of The Life Engine." },
+    { name: "Primer", handle: "PrimerBlobs",
+      avatar: yt("YicJ3lAVdXC5jI7SA7mnX7pPoULN2Gfgh_S4IgDPDPjLaeTx1vWiQeh-reCty2uWuoVK70K5Lg"),
+      text: "Animated explainers, best known for little blob creatures that show natural selection and evolution at work." },
+    { name: "ArtiFish", handle: "ArtiFish-RL",
+      avatar: yt("b1xuUlOfJDwhulgffM4_4oy7Yxzy1-aZlH_0IMpz5jNwifq0ICJR82my2QzKj9GCGXQDV3sm6dA"),
+      text: "Experiments in simulated worlds with neural networks, reinforcement learning and genetic algorithms: evolution simulators, swarm intelligence, ant colonies and the prisoner's dilemma." },
+    { name: "carykh", handle: "carykh",
+      avatar: yt("ytc/AIdro_kTSqc9cibDeQN56QwDTOFqfb8ig4OsfNp8aplI1TqwvE0"),
+      text: "Passion projects like evolution simulators and computer-science experiments." },
+    { name: "The Bibites", handle: "TheBibites",
+      avatar: yt("ytc/AIdro_m6V19rTYSz7N6kpA1Z-5tN0QQFLRzQujt7q-BnCzM"),
+      text: "The channel of The Bibites, with videos about its evolving creatures and how the simulation works." },
+    { name: "davidrandallmiller", handle: "davidrandallmiller",
+      avatar: yt("ytc/AIdro_lg34qGUgo1iYprk0qy74k3QglyAFhSZcgVNWd_uCA"),
+      text: "Known for a deep dive into simulated creatures with tiny neural-network brains evolving over generations." },
+    { name: "Sebastian Lague", handle: "SebastianLague",
+      avatar: yt("ytc/AIdro_knyJw3jL_6AGomJmGe3VvfIYxWzZC9Y8z90Liru4G0UHM"),
+      text: "\"Coding Adventures\" building things from code, including simulations of ecosystems, ants and slime moulds." },
+    { name: "The Coding Train", handle: "TheCodingTrain",
+      avatar: yt("jx7pgOZeAW4tzBUOW3WVTCi8_RJEWZkJS4AiThnYvoS8TaL5zPwOk0gqBftyya9EMhOm80Yhgw"),
+      text: "Daniel Shiffman's creative-coding tutorials: flocking, cellular automata, genetic algorithms and neuroevolution." },
+    { name: "Brainxyz", handle: "Brainxyz",
+      avatar: yt("ytc/AIdro_lY5pvE8SmrecSWA5V6Aq5IRFLuSVNpq910gOovlJvHUw"),
+      text: "Explores the brain, consciousness, life, simulations and new AI algorithms, including particle-life simulations." },
+    { name: "Dave Ackley", handle: "DaveAckley",
+      avatar: yt("ytc/AIdro_m14ZP8juIQj-1PuphYYEmK3e8ZPYidsYbp29-aSLzzXXY"),
+      text: "Living computation: the idea that living systems and computing systems are the same thing, and robust, lifelike computers." },
+  ];
+
+  // ---- In development: devlog channels (shown in this order) ----
+  // project: what they're building (shown as the title). store: optional extra link, e.g. a Steam page.
+  const DEVLOGS = [
+    { project: "Where Beasts Were Born", name: "Germanunkol", handle: "Germanunkol",
+      avatar: yt("INTAhQeSaS-0aDe0W5lp4lyk0xOQrvtOm1RuiViAEzhJ9ZTAZNAncbMI8xkqKNsamk5jJr70FA"),
+      store: ["Steam page", "https://store.steampowered.com/app/2518610/"],
+      text: "An experimental action-RPG where creatures use a genetic algorithm to evolve new bodies, stats and brains as they fight you. Devlogs on procedural creatures, evolution and the music." },
+    { project: "Synthetic Selection", name: "Makan Gilani", handle: "Makan_Gilani",
+      avatar: yt("t2DT2lEopbt1B-3Zb0Ib-8rwv22uAX5fNeCZbdbAmhjzP3NlYpGo7m3cknWbCh4SIQ4CrKbeYA"),
+      text: "Devlogs for Synthetic Selection, a game built around survival of the fittest." },
+    { project: "EvoSim", name: "EvoSim", handle: "OfficialEvoSim",
+      avatar: yt("O1OJknrrTgXCu29mRD2PYFomSRfUffERpFRTWrEKwrf5toKL1MPuo-g8Z314_Hi85Ze_IY-x"),
+      text: "\"Attempting to simulate the evolution of life and all of human history\": living worlds, animals learning to survive, and a simulation scaled up 100×." },
+    { project: "EvoLife", name: "EvoLife", handle: "theRealEvoLife",
+      avatar: yt("JbTjq9TXf6Rb85JxIW-k4P-abQ25mfEWm7MIrMEl8EAGeqqa9ns_ggSbprirrCPYlfOMpvWNHg"),
+      text: "A simulation of a whole ecosystem of cells, with updates on the origins of multicellular life and the tree of life." },
+    { project: "Planetary Life", name: "Sotenbox", handle: "sotenbox",
+      avatar: yt("CRLn-Ue8xi7EGXNOZ02_2vtCYMS-Co5p-DOPC-6diV7my2iLyU0RsCj4WUuGvGeWXJ0urMg2NxA"),
+      store: ["Steam page", "https://store.steampowered.com/app/2471970/"],
+      text: "Devlogs for Planetary Life, a simulation game about planets, life and evolution, now in Steam Early Access." },
+    { project: "An evolution game", name: "Toadmaster", handle: "toadmaster",
+      avatar: yt("dYT_iaFkprJflWx1TPn0cHII4XS0c2oSr283PRhV6Q-P4MAXFlw7Ip-r0mp_ZODDjQ_ZbpyQFA"),
+      text: "Building \"a game that evolves without me\": carnivores, tetrapods, and a complete overhaul along the way." },
+    { project: "A realistic evolution simulator", name: "EightLittleBears", handle: "EightLittleBears",
+      avatar: yt("0tAUEeUfZwIotlYtj9AfpG-cuuiHRIDOVktmTxnBWEF1E3o4rZpysPb9XzuhZeUDOkUJDiZdoPs"),
+      text: "On a quest to build a realistic evolution simulator, with neural-network creatures, and maybe one day a multiplayer deck-building game." },
+    { project: "An AI evolution simulation", name: "Weinreich AI", handle: "WeinreichAI",
+      avatar: yt("tnfBpQLXjNAp9AnZ2mM2HAxcvjiobu04fsRiBnN7t8ovo1ZxJNrehBH3QoCQKlRpqwwme5siAA"),
+      text: "AI creatures evolving in a growing world: predators, combat and a huge closed ecosystem." },
+    { project: "Sumobox and evolution experiments", name: "Simulife Hub", handle: "wallcraft-video",
+      avatar: yt("54R1b9jj4--oqd4BTKoo8Y4NEQgGOMVFmX3DizrOW0EXeVohxAlwWlYXd2MQGROjYHp6RgLQ"),
+      text: "Evolution simulations, genetic algorithms, swarm intelligence and neural networks, currently AI agents learning to fight in Sumobox." },
+    { project: "Monster breeding", name: "RujiK the Comatose", handle: "RujiKtheComatose",
+      avatar: yt("ytc/AIdro_lzO5WfrS5zSvmPGn8Na-nqupXRN3IcsgikDZSXbp0vhA"),
+      text: "Programming and pixel-art devlogs: monster breeding, creature combat, and letting randomness design monsters." },
+    { project: "Procedural creatures", name: "Morphic Studios", handle: "morphic_studios",
+      avatar: yt("Cx3z31l3R3y-s5vZovLNi3wgOFdAZvcRMFJmuPuaDW4rCtBh1J58znDbhvMxhCwiiA6PAYFYLQ"),
+      text: "A one-person game studio experimenting with procedural creatures." },
+    { project: "Simulations in Godot", name: "The Pathfinders Codex", handle: "ThePathfindersCodex",
+      avatar: yt("luIESjwNErypZAWHLa27dQsEUqIR6lTx1bBgTrCZdVIZpVmVKHH6eWX35-qhNYdYXSTiQRnA5EY"),
+      text: "Godot tutorials and open-source simulations: boids, particle life and slime moulds running on compute shaders." },
+    { project: "Small games, one per video", name: "Icoso", handle: "icoso",
+      avatar: yt("kHstGq0XTYcrUMQZVo6T5PjL9eLcTxvSSCX6njh-6Dn09LBZqkfPNOAs0O6II-h3MbGQ-OGR1A"),
+      text: "An indie game dev who builds a new small game in almost every video." },
+  ];
+
+  const row = (title, c, extra = "") => `
+    <li>
+      <a class="avatar" href="https://www.youtube.com/@${c.handle}" target="_blank" rel="noopener">
+        <img src="${c.avatar}" alt="" loading="lazy" width="64" height="64" referrerpolicy="no-referrer">
+      </a>
+      <div>
+        <h3><a href="https://www.youtube.com/@${c.handle}" target="_blank" rel="noopener">${title}</a></h3>
+        <p class="handle">${title === c.name ? "" : c.name + " · "}@${c.handle}</p>
+        <p>${c.text}</p>
+        ${extra}
+      </div>
+    </li>`;
+
+  document.getElementById("channels").innerHTML = CHANNELS.map(c => row(c.name, c)).join("");
+  document.getElementById("devlogs").innerHTML = DEVLOGS.map(d => row(d.project, d,
+    d.store ? `<p class="handle" style="margin-top:6px"><a href="${d.store[1]}" target="_blank" rel="noopener">${d.store[0]} →</a></p>` : "")).join("");
+</script>
+</body>
+</html>
